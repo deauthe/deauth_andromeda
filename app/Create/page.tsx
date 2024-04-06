@@ -9,7 +9,10 @@ import React, { useEffect, useState } from "react";
 import AndromedaClient from "@andromedaprotocol/andromeda.js";
 import Image from "next/image";
 import { randomNFTs } from "@/helpers/staticRandomNfts";
-import { generateTokens } from "@/helpers/generateTokenUri";
+import { generateTokens, TokenData } from "@/helpers/generateTokenUri";
+import { useRouter } from "next/navigation";
+import { randomUUID } from "crypto";
+import { v4 as uuidv4, V4Options } from "uuid";
 
 type Props = {};
 
@@ -19,7 +22,7 @@ const CreateNftPage = (props: Props) => {
 	const [contract, setContract] = useState({});
 
 	const [contractAddress, setContractAddress] = useState(
-		"andr1uan03c83pvmp90w3xnfh327xfdh5s4x69xxcep9pjxt84v83q64qz99590"
+		"andr1pf7gkflvz3maynehp7yn4n5d9hw20ajv7nr85f5jk3t3cy3gcy0s4ef0je"
 	);
 
 	const instantiate_contract = async () => {
@@ -84,17 +87,26 @@ const NftArea = ({
 	useEffect(() => {
 		// Get count from localStorage when component mounts
 		const tokenId = localStorage.getItem("mainNftTokenId");
-		console.log("reached here");
-		if (tokenId) {
-			console.log("reached here", tokenId);
-			setMainNftTokenId(tokenId);
-		}
+		setMainNftTokenId(tokenId as string);
+
+		// Add event listener for storage changes
+		const handleStorageChange = () => {
+			const newTokenId = localStorage.getItem("mainNftTokenId");
+			setMainNftTokenId(newTokenId as string);
+		};
+
+		window.addEventListener("storage", handleStorageChange);
+
+		// Cleanup function to remove the listener on unmount
+		return () => {
+			window.removeEventListener("storage", handleStorageChange);
+		};
 	}, []);
 
 	const queryAllNfts = async () => {
 		const queryMessage = {
 			all_tokens: {
-				limit: 5,
+				limit: 100,
 			},
 		};
 		const imageQuery = {
@@ -180,12 +192,40 @@ const SellButton = ({
 }) => {
 	const client = useAndromedaClient();
 	const [isLoading, setLoading] = useState(false);
+
+	const router = useRouter();
+
 	const sell = async () => {
 		setLoading(true);
 		createNfts();
 	};
 
-	const createNfts = () => {
+	const createReferenceNft = async (allNfts: TokenData[]) => {
+		const reference_nft_token_id = uuidv4();
+		const tokenUris = allNfts.map((nft, index) => {
+			return nft?.token_uri;
+		});
+		const token_uri = JSON.stringify(tokenUris);
+		const queryMessage = {
+			mint: {
+				token_id: reference_nft_token_id,
+				owner: process.env.NEXT_PUBLIC_CONTRACT_OWNER,
+				token_uri: token_uri,
+				extension: {
+					publisher: "Andromeda",
+				},
+			},
+		};
+		const createdRefNft = await client
+			?.execute(contract_address, queryMessage)
+			.then((response) => {
+				console.log("created reference nft");
+				console.log(reference_nft_token_id, ": ref nft token id");
+				router.push(`/distribute-nfts?ref_nft=${reference_nft_token_id}`);
+			});
+	};
+
+	const createNfts = async () => {
 		const generateMetadata = randomNFTs;
 		console.log("genereated metadata: ", generateMetadata);
 
@@ -202,10 +242,17 @@ const SellButton = ({
 			console.log(contract_address, ": contract address");
 			console.log(queryMessage);
 
-			client?.execute(contract_address, queryMessage).then((res) => {
-				setLoading(false);
-				console.log("NFTs created successfully", res);
-			});
+			const createdNfts = await client
+				?.execute(contract_address, queryMessage)
+				.then(async (res) => {
+					setLoading(false);
+					console.log("NFTs created successfully", res);
+					await createReferenceNft(arrayOfTokenUris);
+				})
+				.catch((err) => {
+					console.error("Error creating NFTs: ", err);
+					setLoading(false);
+				});
 		} catch (error) {
 			setLoading(false);
 			console.log("failed creating");

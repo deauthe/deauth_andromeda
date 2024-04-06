@@ -62,7 +62,8 @@ const CreateNftButton = ({
 		if (!image || !price || !name || !description) return;
 		try {
 			const token_id = uuidv4();
-			const owner_of_minted_nft = "andr13g8qm62yu5zhvk4e33zjcs63ne3sv4xt449yl4"; //remove static but it only works if you are the owner of the contract
+			const owner_of_minted_nft: string =
+				process.env.NEXT_PUBLIC_CONTRACT_OWNER!; //remove static but it only works if you are the owner of the contract
 			const token_uri: NFT_metadata = {
 				name: "Token1",
 				description: "This is a description",
