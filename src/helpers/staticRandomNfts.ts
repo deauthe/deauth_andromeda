@@ -46,5 +46,5 @@ const generateRandomNFTs = (count: number): NFT_metadata[] => {
 };
 
 // Generate 10 random NFTs
-export const randomNFTs = generateRandomNFTs(10);
+export const randomNFTs = generateRandomNFTs(4);
 console.log(randomNFTs);

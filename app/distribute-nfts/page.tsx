@@ -18,12 +18,16 @@ const DistributeNfts = (props: Props) => {
 	const refNftTokenId: string | null = queryParams.get("ref_nft");
 	const contract_address: string | null = queryParams.get("contract_address");
 	const [allNfts, setAllNfts] = useState<any>([]);
-	const [image, setImage] = useState();
+	const [image, setImage] = useState("");
 	const [marketPlaceContractAddress, setMarketPlaceContractAddress] =
 		useState<string>("");
 	const [transactionWaiting, setTransactionWaiting] = useState(false);
-	const [refTokenId, setRefTokenId] = useState<string | null>(null);
 	const client = useAndromedaClient();
+
+	useEffect(() => {
+		localStorage.setItem("ref_nft", refNftTokenId as string | "");
+		localStorage.setItem("cw721_address", contract_address as string);
+	}, [contract_address, refNftTokenId]);
 
 	const getAllNfts = async () => {
 		const queryMessage = {
