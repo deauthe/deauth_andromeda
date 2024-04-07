@@ -26,13 +26,10 @@ const CreateNftPage = (props: Props) => {
 	);
 
 	const instantiate_contract = async () => {
-		const config: InstantiateOptions = {
-			admin: "andr13g8qm62yu5zhvk4e33zjcs63ne3sv4xt449yl4",
-		};
 		const cw721_instantiate_message = {
 			name: "Example Token",
 			symbol: "ET",
-			minter: "andr13g8qm62yu5zhvk4e33zjcs63ne3sv4xt449yl4",
+			minter: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
 			kernel_address:
 				"andr14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9shptkql",
 		};
