@@ -111,5 +111,5 @@ This project utilizes the following libraries and protocols:
 ### Create a pull request on the GitHub repository
 
 ## Helpful links
-[AndromedaOs Docs](https://docs.andromedaprotocol.io/andromeda)
+[AndromedaOs Docs](https://docs.andromedaprotocol.io/andromeda) <br>
 [AndromedaOs Web Application Docs](https://docs.andromedaprotocol.io/guides)
