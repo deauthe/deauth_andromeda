@@ -30,8 +30,7 @@ const CreateNftPage = (props: Props) => {
 			name: "Example Token",
 			symbol: "ET",
 			minter: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
-			kernel_address:
-				"andr14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9shptkql",
+			kernel_address: process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
 		};
 		try {
 			const contract = await client?.instantiate(
@@ -136,7 +135,7 @@ const NftArea = ({
 
 	return (
 		<div className="w-full bg-red-400 flex mt-10 h-fit flex-col ">
-			<div className="w-fit bg-green-400 mx-auto">
+			<div className="w-fit mx-auto">
 				<Button onClick={queryAllNfts} className="mx-auto ">
 					getNfts
 				</Button>
