@@ -218,7 +218,7 @@ const DistributeNfts = (props: Props) => {
 	};
 
 	return (
-		<div className="mt-20">
+		<div className="mt-28">
 			<Button
 				onClick={() => {
 					getAllNfts();

@@ -25,20 +25,19 @@ const Navbar = () => {
     className={`bg-red-w-full flex justify-between`}
   > */}
 			<div className="flex gap-2 items-center ml-5 ">
-				<Link href="/">
-					<div className=" flex items-end gap-2 ">
-						{/* <img
-							src="/logo.png"
-							alt="logo"
-							className="w-[40px] md:w-[50px] drop-shadow-lg"
-						/> */}
-						{/* <p className="md:text-3xl text-white text-xl font-bold font-heading1">
-							Deauth
-						</p> */}
+				{/* <Link className="bg-red-500 h-fit" href="/">
+					<div className=" flex items-end gap-2 bg-red-500 h-fit">
+					
 
-						<Image src={"/NavLogo.png"} alt="logo"  width={550} height={550} className="-ml-[8em]"/>
+						<Image
+							src={"/NavLogo.png"}
+							alt="logo"
+							width={550}
+							height={200}
+							className="-ml-[8em]"
+						/>
 					</div>
-				</Link>
+				</Link> */}
 			</div>
 
 			<div className="  flex items-center gap-2   ">
