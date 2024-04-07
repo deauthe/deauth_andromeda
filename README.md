@@ -1,7 +1,3 @@
-<p>&nbsp;</p>
-<p align="center">
-<img src="./assets/idea.png" width=1000>
-</p>
 
 # DEAUTH Platform
 
@@ -90,19 +86,13 @@ This project utilizes the following libraries and protocols:
 ## How to Contribute to the Project
 
 ### Clone the repository
-    ```bash
     git clone https://github.com/deauthe/deauth_andromeda
-    ```
 
 ### Navigate to the project directory
-    ```bash
     cd deauth_andromeda
-    ```
 
 ### Install dependencies
-    ```bash
     npm i
-    ```
 
 ### Create a new branch for your feature or fix
     git checkout -b feature/new-feature
@@ -110,19 +100,16 @@ This project utilizes the following libraries and protocols:
 ### Make your changes to the code
 
 ### Add your changes to the staging area
-    ```bash
     git add .
-    ```
 
 ### Commit your changes
-    ```bash
     git commit -m "Add new feature or fix"
 
-    ```
-
 ### Push your changes to your fork
-    ```bash
     git push origin feature/new-feature
-    ```
 
 ### Create a pull request on the GitHub repository
+
+## Helpful links
+[AndromedaOs Docs](https://docs.andromedaprotocol.io/andromeda)
+[AndromedaOs Web Application Docs](https://docs.andromedaprotocol.io/guides)
