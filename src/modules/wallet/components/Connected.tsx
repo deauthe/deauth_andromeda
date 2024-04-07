@@ -57,9 +57,9 @@ const Connected: FC<ConnectedProps> = (props) => {
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent>
-						<PopoverBody>
+						<PopoverBody className="bg-white p-4 rounded-lg border  border-gray-600 " >
 							<HStack mb={3} justifyContent="start">
-								<Image src={config?.iconUrls?.sm ?? ""} w="5" />
+								<Image src={config?.iconUrls?.sm ?? ""} width={30} />
 								<Text fontWeight={600} color="gray.700" flex={1}>
 									{config?.chainName ?? config?.chainId}
 								</Text>
@@ -79,10 +79,11 @@ const Connected: FC<ConnectedProps> = (props) => {
 								mb={2}
 								p={2}
 								color="gray.700"
-								fontSize="sm"
+								fontSize="xs"
 								readOnly
+								className="mt-5"
 							/>
-							<HStack mb={2}>
+							<HStack mb={6} className=" flex justify-center items-center mt-5 w-full">
 								<Link
 									href={
 										config?.blockExplorerAddressPages[0]?.replaceAll(
@@ -90,6 +91,7 @@ const Connected: FC<ConnectedProps> = (props) => {
 											account?.address ?? ""
 										)!
 									}
+									className="hover:text-[#cb4346] duration-200 transition-all"
 								>
 									Explorer
 								</Link>

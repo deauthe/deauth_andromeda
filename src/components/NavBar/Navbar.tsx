@@ -4,7 +4,7 @@ import Link from "next/link";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart } from "react-icons/bs";
 import { ConnectWallet } from "@/modules/wallet";
-
+import Image from "next/image";
 interface Category {
 	id: number;
 	attributes: {
@@ -19,7 +19,7 @@ interface Category {
 const Navbar = () => {
 	return (
 		<div
-			className={`w-full h-[50px] md:h-[80px]  flex justify-between  z-20 fixed bg-white top-0 transition-all duration-500  px-5    `}
+			className={`w-full h-[50px] md:h-[80px]  flex justify-between  z-20 fixed bg-black  shadow-lg top-0 transition-all duration-500  px-5    `}
 		>
 			{/* <div
     className={`bg-red-w-full flex justify-between`}
@@ -32,9 +32,11 @@ const Navbar = () => {
 							alt="logo"
 							className="w-[40px] md:w-[50px] drop-shadow-lg"
 						/> */}
-						<p className="md:text-3xl text-xl font-light font-heading1">
+						{/* <p className="md:text-3xl text-white text-xl font-bold font-heading1">
 							Deauth
-						</p>
+						</p> */}
+
+						<Image src={"/NavLogo.png"} alt="logo"  width={550} height={550} className="-ml-[8em]"/>
 					</div>
 				</Link>
 			</div>
@@ -45,7 +47,7 @@ const Navbar = () => {
 				<ConnectWallet />
 
 				<div className={`flex    `}>
-					<div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
+					<div className="w-8 text-white md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
 						<IoMdHeartEmpty className={`text-[19px] md:text-[24px] `} />
 						<div className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] flex justify-center items-center px-[2px] md:px-[5px]">
 							51
@@ -54,7 +56,7 @@ const Navbar = () => {
 
 					<Link href="/cart">
 						<div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
-							<BsCart className={`text-[15px] md:text-[20px] fill-black`} />
+							<BsCart className={`text-[15px] text-white md:text-[20px]`} />
 							{/* TODO */}
 							{/* {cartItems.length > 0 && (
 								<div className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] flex justify-center items-center px-[2px] md:px-[5px]">
