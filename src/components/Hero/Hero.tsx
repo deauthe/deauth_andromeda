@@ -50,7 +50,7 @@ const HeroBanner = () => {
 
       <div className="w-5 h-5">
         <Image
-          src={"/NFT-1.png"}
+          src={"/nft1.png"}
           alt="HeroBannerText"
           width={400}
           height={100}
@@ -59,7 +59,7 @@ const HeroBanner = () => {
       </div>
 
       <Image
-        src={"/NFT-2.png"}
+        src={"/nft2.png"}
         alt="HeroBannerText"
         width={400}
         height={100}
