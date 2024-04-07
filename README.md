@@ -2,11 +2,12 @@
 <p align="center">
 <img src="https://github.com/andromedaprotocol/andromeda-nextjs-application-starter/blob/main/public/Andromeda-Logo.png" width=1000>
 </p>
-# ArtNFT Platform
+
+# DEAUTH Platform
 
 ## Project Description
 
-The ArtNFT platform addresses the struggles faced by new aspiring illustrators by providing a solution that enables them to showcase their art, monetize their creations, and offer unique value-based NFTs. The platform compensates artists for sales of their diverse design products and allows for shared ownership of design NFTs. Artists can create NFTs of their art and utilize them to produce a variety of products such as shirts, hoodies, and mugs. Additionally, they can monetize their designs further by dividing the ownership of NFTs between multiple owners, with sales benefits distributed according to the proportion of ownership.
+The DEAUTH platform addresses the struggles faced by new aspiring illustrators by providing a solution that enables them to showcase their art, monetize their creations, and offer unique value-based NFTs. The platform compensates artists for sales of their diverse design products and allows for shared ownership of design NFTs. Artists can create NFTs of their art and utilize them to produce a variety of products such as shirts, hoodies, and mugs. Additionally, they can monetize their designs further by dividing the ownership of NFTs between multiple owners, with sales benefits distributed according to the proportion of ownership.
 
 ## Table of Contents
 
@@ -81,27 +82,42 @@ This project utilizes the following libraries and protocols:
 
 ## How to Contribute to the Project
 
-# Clone the repository
-git clone https://github.com/deauthe/deauth_andromeda
+### Clone the repository
+    ```bash
+    git clone https://github.com/deauthe/deauth_andromeda
+    ```
 
-# Navigate to the project directory
-cd deauth_andromeda
+### Navigate to the project directory
+    ```bash
+    cd deauth_andromeda
+    ```
 
-# Install dependencies
-npm i
+### Install dependencies
+    ```bash
+    npm i
+    ```
 
-# Create a new branch for your feature or fix
-git checkout -b feature/new-feature
+### Create a new branch for your feature or fix
+    ```bash
+    git checkout -b feature/new-feature
+    ```
 
-# Make your changes to the code
+### Make your changes to the code
 
-# Add your changes to the staging area
-git add .
+### Add your changes to the staging area
+    ```bash
+    git add .
+    ```
 
-# Commit your changes
-git commit -m "Add new feature or fix"
+### Commit your changes
+    ```bash
+    git commit -m "Add new feature or fix"
 
-# Push your changes to your fork
-git push origin feature/new-feature
+    ```
 
-# Create a pull request on the GitHub repository
+### Push your changes to your fork
+    ```bash
+    git push origin feature/new-feature
+    ```
+
+### Create a pull request on the GitHub repository
