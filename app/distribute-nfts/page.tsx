@@ -118,6 +118,7 @@ const DistributeNfts = (props: Props) => {
 				console.log("something missing c:", contract_address, " q:", query);
 				return;
 			}
+			console.log(marketPlaceAddress);
 
 			const nft1 = await client?.execute(contract_address!, {
 				send_nft: {
@@ -199,7 +200,7 @@ const DistributeNfts = (props: Props) => {
 		}
 	};
 
-	const buyNft = (token_id: string) => {
+	const buyNft = async (token_id: string) => {
 		const query = {
 			buy: {
 				token_id,
@@ -210,6 +211,10 @@ const DistributeNfts = (props: Props) => {
 			console.log("Something is missing:", marketPlaceContractAddress, query);
 			return;
 		}
+		try {
+			const nft = await client?.execute(marketPlaceContractAddress, query);
+			console.log("bought nft", nft);
+		} catch (error) {}
 	};
 
 	return (
