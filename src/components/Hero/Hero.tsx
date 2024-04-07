@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import './hero.css';
+import "./hero.css";
 import { useRouter } from "next/navigation";
 
 const HeroBanner = () => {
@@ -24,32 +24,47 @@ const HeroBanner = () => {
       />
 
       <Image
-      src={"/HeroBannerText.png"}
-      alt="HeroBannerText"
-      width={400}
-      height={100}
-      className="z-10 absolute left-0 right-0 top-[2em] mx-auto w-1/2  font-header text-white"
-
-       />
-
+        src={"/HeroBannerText.png"}
+        alt="HeroBannerText"
+        width={400}
+        height={100}
+        className="z-10 absolute left-0 right-0 top-[2em] mx-auto w-1/2  font-header text-white"
+      />
 
       <Image
-      src={"/HeroBannerText2.png"}
-      alt="HeroBannerText"
-      width={400}
-      height={100}
-      
-      className="z-10 absolute left-0 right-0 top-[15em] mx-auto w-1/2  font-header text-white"
+        src={"/HeroBannerText2.png"}
+        alt="HeroBannerText"
+        width={400}
+        height={100}
+        className="z-10 absolute left-0 right-0 top-[15em] mx-auto w-1/2  font-header text-white"
+      />
 
-       />
+      <button
+        className="button absolute z-10 left-1/2 transform -translate-x-1/2 top-[36em] p-9 mx-auto  font-extrabold "
+        onClick={() => {
+          router.push("/Create");
+        }}
+      >
+        Sell Your ART
+      </button>
 
-       <button className="button absolute z-10 left-1/2 transform -translate-x-1/2 top-[36em] p-9 mx-auto  font-extrabold " onClick={()=>{
-        router.push('/Create')
-       }} >
-              Sell Your ART
-       </button>
+      <div className="w-5 h-5">
+        <Image
+          src={"/NFT-1.png"}
+          alt="HeroBannerText"
+          width={400}
+          height={100}
+          className="z-10 absolute left-[8em] top-[25em] mx-auto   font-header text-white w-[25em] h-[25em]"
+        />
+      </div>
 
-     
+      <Image
+        src={"/NFT-2.png"}
+        alt="HeroBannerText"
+        width={400}
+        height={100}
+        className="z-10 absolute right-[8em] top-[25em] mx-auto   font-header text-white w-[25em] h-[25em] "
+      />
     </div>
   );
 };
