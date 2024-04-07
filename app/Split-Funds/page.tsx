@@ -18,9 +18,35 @@ const CreateSplitterPage = (props: Props) => {
         "andr12y9cleh5069cjt593apttq2qd77m6ak3ddp9cj3f55lmrl2mrajs63n9l3"
     );
 
+
+    const get_child_nft_owner_data = async () => {
+        const queryMessage = {
+            "nft_info": {
+                "token_id": "1"
+            }
+        }
+
+
+        try {
+
+            const refNft = await client
+                ?.queryContract(contract_address, queryMessage)
+                .then((res) => {
+                    instantiate_contract(res)
+                });
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    }
+
     const instantiate_contract = async () => {
-
-
+        /* here we have hard coded the address and just shown a possible implementation of the concept as getting the owner's after querying reference nft , was not possible as we were unable to execute multiple queries at a single time 
+        
+        After getting the reference nft we would first find the parent nft (as we have it stored in local storage) and then calculate the proportion of each owner as many no. of times they appear
+        
+        */
         const splitter_instantiate_message =
         {
             recipients: [
