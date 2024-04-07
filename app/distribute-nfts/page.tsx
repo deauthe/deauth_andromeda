@@ -109,28 +109,45 @@ const DistributeNfts = (props: Props) => {
 			return;
 		}
 
-		all_nft_token_ids.forEach(async (tokenId) => {
-			const query = {
+		try {
+			if (!contract_address || !query || !client) {
+				console.log("something missing c:", contract_address, " q:", query);
+				return;
+			}
+
+			const nft1 = await client?.execute(contract_address!, {
 				send_nft: {
 					contract: marketPlaceAddress,
-					token_id: tokenId,
+					token_id: all_nft_token_ids[0],
 					msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
 				},
-			};
-			try {
-				if (!contract_address || !query || !client) {
-					console.log("something missing c:", contract_address, " q:", query);
-					return;
-				}
+			});
+			const nft2 = await client?.execute(contract_address!, {
+				send_nft: {
+					contract: marketPlaceAddress,
+					token_id: all_nft_token_ids[1],
+					msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
+				},
+			});
+			const nft3 = await client?.execute(contract_address!, {
+				send_nft: {
+					contract: marketPlaceAddress,
+					token_id: all_nft_token_ids[2],
+					msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
+				},
+			});
+			const nft4 = await client?.execute(contract_address!, {
+				send_nft: {
+					contract: marketPlaceAddress,
+					token_id: all_nft_token_ids[3],
+					msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
+				},
+			});
 
-				setTimeout(async () => {
-					const randomNft = await client?.execute(contract_address!, query);
-					console.log("nft sent: ", randomNft);
-				}, 4000);
-			} catch (error) {
-				console.error(error);
-			}
-		});
+			console.log("nft sent: ", nft1, nft2, nft3, nft4);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const instantiateMarketPlace = async () => {
@@ -153,8 +170,8 @@ const DistributeNfts = (props: Props) => {
 	};
 
 	const queryMarketPlace = async (all_nft_token_ids: string[]) => {
-		try {
-			for (const tokenId of all_nft_token_ids) {
+		for (const tokenId of all_nft_token_ids) {
+			try {
 				const query = {
 					latest_sale_state: {
 						token_id: tokenId,
@@ -172,9 +189,22 @@ const DistributeNfts = (props: Props) => {
 					query
 				);
 				console.log("NFT received:", randomNft);
+			} catch (error) {
+				console.error("Error querying MarketPlace:", error);
 			}
-		} catch (error) {
-			console.error("Error querying MarketPlace:", error);
+		}
+	};
+
+	const buyNft = (token_id: string) => {
+		const query = {
+			buy: {
+				token_id,
+				token_address: contract_address,
+			},
+		};
+		if (!marketPlaceContractAddress || !query || !client) {
+			console.log("Something is missing:", marketPlaceContractAddress, query);
+			return;
 		}
 	};
 
@@ -209,13 +239,25 @@ const DistributeNfts = (props: Props) => {
 				<div>
 					<img className="size-44" src={image || ""} alt="image" />
 					<h1>Total NFTs: {allNfts.length}</h1>
-					<ul>
+					<ul className="">
 						{
 							//@ts-ignore
 							allNfts.map((nft, index) => {
-								return <li key={index}>{nft}</li>;
+								return (
+									<li
+										className="bg-white shadow-md p-2 m-1 flex justify-between w-1/2 mx-auto"
+										key={index}
+									>
+										{nft}
+										{}
+										<Button onClick={() => buyNft(nft)} className="">
+											Buy this Nft
+										</Button>
+									</li>
+								);
 							})
 						}
+						{}
 					</ul>
 				</div>
 			)}
