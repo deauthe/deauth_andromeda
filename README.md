@@ -1,6 +1,6 @@
 <p>&nbsp;</p>
 <p align="center">
-<img src="https://github.com/andromedaprotocol/andromeda-nextjs-application-starter/blob/main/public/Andromeda-Logo.png" width=1000>
+<img src="./assets/idea.png" width=1000>
 </p>
 
 # DEAUTH Platform
@@ -36,6 +36,13 @@ To get started with the development server, follow these steps:
     ```
 
 3. **Open http://localhost:3000 with your browser** to see the result.
+
+## Project Idea
+<p>&nbsp;</p>
+<p align="center">
+<img src="./assets/idea.png" width=1000>
+</p>
+
 
 
 ## How to Use the Project
@@ -77,7 +84,7 @@ This project utilizes the following libraries and protocols:
 - Timelock
 - Splitter
 - CW721
-- CW20
+- Marketplace
 
 
 ## How to Contribute to the Project
