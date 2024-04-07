@@ -60,12 +60,12 @@ To address the cw721 limitation, we propose introducing a new NFT type: a refere
 
 ### Benefits of the Reference NFT Approach
 
-    - Security: Prevents unauthorized creation of child NFTs by requiring a valid reference during the minting process.
+- Security: Prevents unauthorized creation of child NFTs by requiring a valid reference during the minting process.
 
-    - Flexibility: Allows for future additions of child NFTs as long as they can be linked to a valid reference NFT.
+- Flexibility: Allows for future additions of child NFTs as long as they can be linked to a valid reference NFT.
     
-    - Transparency: The reference NFT provides a clear record of the parent-child relationships on the blockchain.
-
+- Transparency: The reference NFT provides a clear record of the parent-child relationships on the blockchain.
+---
 <p>&nbsp;</p>
 <p align="center">
 <img src="./assets/idea2.png" width=1000>
@@ -75,6 +75,7 @@ To address the cw721 limitation, we propose introducing a new NFT type: a refere
 <img src="./assets/idea1.png" width=1000>
 </p>
 
+---
 
 
 ## How to Use the Project
