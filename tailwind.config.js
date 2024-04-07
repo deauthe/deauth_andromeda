@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily:{
+        header:["RetroPix","RetroPix"]
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

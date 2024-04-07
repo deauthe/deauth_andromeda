@@ -5,7 +5,8 @@ import Connected from "./Connected";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import { connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
 import { PlusSquareIcon } from "@chakra-ui/icons";
-
+import LoaderImage from '../../../../assets/loader.gif';
+import Image from "next/image";
 interface ConnectWalletProps {}
 const ConnectWallet: FC<ConnectWalletProps> = (props) => {
 	const {} = props;
@@ -16,14 +17,25 @@ const ConnectWallet: FC<ConnectWalletProps> = (props) => {
 	}
 	return (
 		<Button
-			className="bg-purple-200"
+			className="bg-[#cb4346]"
 			onClick={() => {
 				connectAndromedaClient();
 				console.log("client ", client);
 			}}
 			disabled={isLoading}
 		>
-			Connect Wallet
+			
+			{
+				isLoading ? (
+					// <p>Connecting....</p>
+				<Image src={"/loader.gif"} alt="gif" width={100} height={100}/>
+				):(
+					<p>Connect Wallet</p>
+				)
+			}
+
+
+			
 		</Button>
 	);
 };
