@@ -49,17 +49,18 @@ const CreateNftPage = (props: Props) => {
 	};
 
 	return (
-		<Wrapper>
-			<div className="mt-20">
+		<Wrapper> 
+			<div className="mt-20  w-full relative  ">
 				<Button
-					className="bg-black text-white px-5 "
+					className=" text-white px-5 mt-5 absolute my-8 -top-[8em]  left-1/2 transform -translate-x-1/2 bg-red-400 rounded-none  "
 					onClick={() => instantiate_contract()}
 				>
-					instantiate Contract
+					Instantiate Contract
 				</Button>
 				<CreateNftButton
 					andromeda_client={client}
 					contract_address={contractAddress}
+					
 				/>
 
 				<NftArea client={client} contract_address={contractAddress} />
@@ -134,10 +135,10 @@ const NftArea = ({
 	};
 
 	return (
-		<div className="w-full bg-red-400 flex mt-10 h-fit flex-col ">
+		<div className="w-fullflex mt-10 h-fit flex-col ">
 			<div className="w-fit mx-auto">
-				<Button onClick={queryAllNfts} className="mx-auto ">
-					getNfts
+				<Button onClick={queryAllNfts} className="mx-auto bg-red-400 rounded-none ">
+					Get All NFTs
 				</Button>
 			</div>
 			<div className="grid grid-cols-4 gap-5 my-10 mx-auto">
@@ -146,7 +147,7 @@ const NftArea = ({
 					nfts?.tokens?.length >= 0 &&
 						//@ts-ignore
 						nfts.tokens.map((item, index) => (
-							<div key={index} className="size-44 bg-red-300 rounded-lg">
+							<div key={index} className="size-44  rounded-lg">
 								{image ? (
 									<Image
 										className="mx-auto"

@@ -96,13 +96,14 @@ const CreateNftButton = ({
 	};
 	return (
 		<Wrapper>
-			<div className="content mx-auto flex flex-col gap-10 px-20 w-1/2 ">
+			<div className="content mx-auto flex flex-col gap-10 px-20 w-1/2 border-2 border-red-400 p-3 py-8 rounded-lg shadow-lg mt-[12em]">
 				<Form.Control
-					className="rounded-lg border-none w-auto"
 					type="file"
 					required
 					name="file"
 					onChange={uploadToIPFS}
+					className=" border-red-400 border-2 bg-transparent text p-2 rounded-lg outline-none"
+
 				/>
 				<Form.Control
 					onChange={(e) => setName(e.target.value)}
@@ -110,6 +111,7 @@ const CreateNftButton = ({
 					required
 					type="text"
 					placeholder="Name"
+					className=" border-red-400 border-2 bg-transparent text p-2 rounded-lg outline-none text-red-400"
 				/>
 				<Form.Control
 					onChange={(e) => setDescription(e.target.value)}
@@ -117,17 +119,12 @@ const CreateNftButton = ({
 					required
 					as="textarea"
 					placeholder="Description"
+					className=" border-red-400 border-2 bg-transparent p-2 rounded-lg outline-none text-red-400"
+
 				/>
-				<Form.Control
-					//@ts-ignore
-					onChange={(e) => setPrice(e.target.value)}
-					size="lg"
-					required
-					type="number"
-					placeholder="Price in ANDR"
-				/>
-				<div className="d-grid px-0">
-					<Button onClick={createNFT} size="lg">
+			
+				<div className="d-grid px-0 m-auto bg-red-400">
+					<Button onClick={createNFT} size="lg" className="bg-red-400">
 						Create & List NFT!
 					</Button>
 				</div>
