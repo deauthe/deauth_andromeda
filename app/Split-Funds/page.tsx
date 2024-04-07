@@ -5,6 +5,7 @@ import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import useGetCodeId from "@/lib/andrjs/hooks/useGetCodeId";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -15,6 +16,7 @@ const CreateSplitterPage = (props: Props) => {
 	const [refresh, setRefresh] = useState(false);
 	const [refNftId, setRefNftId] = useState("");
 	const [cw721_address, setCw721Adress] = useState("");
+	const router = useRouter();
 
 	useEffect(() => {
 		setRefNftId(localStorage.getItem("ref_nft") as string);
@@ -84,6 +86,7 @@ const CreateSplitterPage = (props: Props) => {
 				splitter_instantiate_message,
 				"sending funds to owners"
 			);
+			router.push("/spend-timelock-funds");
 			console.log("splitterContract splitter done", splitterContract);
 			if (splitterContract) {
 				setSplitterContract(splitterContract?.contractAddress);
