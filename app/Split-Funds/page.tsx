@@ -90,6 +90,10 @@ const CreateSplitterPage = (props: Props) => {
 			console.log("splitterContract splitter done", splitterContract);
 			if (splitterContract) {
 				setSplitterContract(splitterContract?.contractAddress);
+				localStorage.setItem(
+					"splitter_address",
+					splitterContract?.contractAddress
+				);
 			}
 		} catch (error) {
 			console.error(error);
