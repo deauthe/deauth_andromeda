@@ -105,9 +105,7 @@ This project utilizes the following libraries and protocols:
     ```
 
 ### Create a new branch for your feature or fix
-    ```bash
     git checkout -b feature/new-feature
-    ```
 
 ### Make your changes to the code
 
