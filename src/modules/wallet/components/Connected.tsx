@@ -33,7 +33,9 @@ const Connected: FC<ConnectedProps> = (props) => {
 			{({ isOpen }) => (
 				<>
 					<PopoverTrigger>
-						<Button>
+						<Button 
+						className=" border-2 border-red-400 rounded-none  bg-none"
+						>
 							<HStack mr="2">
 								<Image
 									alt="icons"
@@ -57,10 +59,10 @@ const Connected: FC<ConnectedProps> = (props) => {
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent>
-						<PopoverBody className="bg-white p-4 rounded-lg border  border-gray-600 " >
+						<PopoverBody className="bg-none border-2 border-red-400 p-4   border-gray-600 " >
 							<HStack mb={3} justifyContent="start">
 								<Image src={config?.iconUrls?.sm ?? ""} width={30} />
-								<Text fontWeight={600} color="gray.700" flex={1}>
+								<Text fontWeight={600} color="gray.700" flex={1} className="text-red-400">
 									{config?.chainName ?? config?.chainId}
 								</Text>
 								<Badge
@@ -81,7 +83,8 @@ const Connected: FC<ConnectedProps> = (props) => {
 								color="gray.700"
 								fontSize="xs"
 								readOnly
-								className="mt-5"
+								className="mt-5 bg-none border-2 border-red-400 text-red-400 "
+
 							/>
 							<HStack mb={6} className=" flex justify-center items-center mt-5 w-full">
 								<Link
@@ -91,12 +94,12 @@ const Connected: FC<ConnectedProps> = (props) => {
 											account?.address ?? ""
 										)!
 									}
-									className="hover:text-[#cb4346] duration-200 transition-all"
+									className="text-red-400 hover:text-white duration-200 transition-all"
 								>
 									Explorer
 								</Link>
 								<Button
-									className="flex gap-3"
+									className="flex justify-center items-center gap-3 border-2 border-red-400 rounded-none  hover:bg-red-300 duration-200 transition-all hover:text-black"
 									onClick={disconnectAndromedaClient}
 								>
 									<div className="contain-content h-full">
