@@ -96,13 +96,13 @@ const CreateNftButton = ({
 	};
 	return (
 		<Wrapper>
-			<div className="content mx-auto flex flex-col gap-10 px-20 w-1/2 border-2 border-red-400 p-3 py-8 rounded-lg shadow-lg mt-[12em]">
+			<div className="content mx-auto flex flex-col gap-10 px-20 w-1/2 border-2 border-red-400 p-3 py-8  shadow-lg mt-[12em]">
 				<Form.Control
 					type="file"
 					required
 					name="file"
 					onChange={uploadToIPFS}
-					className=" border-red-400 border-2 bg-transparent text p-2 rounded-lg outline-none"
+					className=" border-red-400 border-2 bg-transparent text p-2  outline-none"
 
 				/>
 				<Form.Control
@@ -111,7 +111,7 @@ const CreateNftButton = ({
 					required
 					type="text"
 					placeholder="Name"
-					className=" border-red-400 border-2 bg-transparent text p-2 rounded-lg outline-none text-red-400"
+					className=" border-red-400 border-2 bg-transparent text p-2  outline-none text-red-400"
 				/>
 				<Form.Control
 					onChange={(e) => setDescription(e.target.value)}
@@ -119,7 +119,7 @@ const CreateNftButton = ({
 					required
 					as="textarea"
 					placeholder="Description"
-					className=" border-red-400 border-2 bg-transparent p-2 rounded-lg outline-none text-red-400"
+					className=" border-red-400 border-2 bg-transparent p-2  outline-none text-red-400"
 
 				/>
 			
