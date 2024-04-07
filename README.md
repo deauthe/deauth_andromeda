@@ -2,62 +2,106 @@
 <p align="center">
 <img src="https://github.com/andromedaprotocol/andromeda-nextjs-application-starter/blob/main/public/Andromeda-Logo.png" width=1000>
 </p>
+# ArtNFT Platform
 
-# About
-The Andromeda Next.js Application Starter is a base setup for developers to start building without having to worry about the prerequisites. Containing all the key parts needed, it allows you to set up in minutes and start working on your builds. The starter contains the following setups:
-- Keplr integration
-- Andromeda Client (Devnet)
-- GraphQL integration
-- Contract execution hooks 
+## Project Description
 
-Using this as a starting template, any developer can create their own nextjs application with custom embeddables that suit their needs.
+The ArtNFT platform addresses the struggles faced by new aspiring illustrators by providing a solution that enables them to showcase their art, monetize their creations, and offer unique value-based NFTs. The platform compensates artists for sales of their diverse design products and allows for shared ownership of design NFTs. Artists can create NFTs of their art and utilize them to produce a variety of products such as shirts, hoodies, and mugs. Additionally, they can monetize their designs further by dividing the ownership of NFTs between multiple owners, with sales benefits distributed according to the proportion of ownership.
 
-**Notes**:
-- It mainly uses Chakra UI, but developers can install any styling library, such as Tailwind, for example.
-- This setup is currently using our Devnet (Testnet for Devs). If you encounter any issues connecting to the GraphQL or chain, please contact us for support.
+## Table of Contents
 
- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). 
+- [Getting Started](#getting-started)
+- [How to Use the Project](#how-to-use-the-project)
+- [Credits](#credits)
+- [License](#license)
+- [How to Contribute to the Project](#how-to-contribute-to-the-project)
 
 ## Getting Started
 
-First, run the development server:
+To get started with the development server, follow these steps:
 
-```bash
+1. **Install dependencies:**
+    ```bash
+    npm i
+    ```
+
+2. **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+   or
+    ```bash
+    yarn dev
+    ```
+
+3. **Open http://localhost:3000 with your browser** to see the result.
+
+
+## How to Use the Project
+
+1. **Submitting Designs:**
+   - Artists can submit their designs to the platform by navigating to the submission section in the user dashboard.
+   - They will need to provide necessary details such as title, description, and upload the design file.
+
+2. **Creating NFTs:**
+   - Once a design is submitted, the platform automatically creates an NFT associated with the design.
+   - The NFT represents ownership and authenticity of the artwork.
+
+3. **Product Creation:**
+   - The platform uses the submitted designs to create a range of products such as hoodies, shirts, mugs, etc.
+   - Users can browse through the product catalog and select items they wish to purchase.
+
+4. **Purchasing NFT Shares:**
+   - Users interested in supporting artists can purchase shares in the NFT associated with a specific design.
+   - This gives them ownership rights to a portion of the NFT and a stake in the future sales of products featuring the associated design.
+
+5. **Sales and Revenue Distribution:**
+   - As products featuring the design are sold, revenue is generated.
+   - Revenue from product sales is distributed proportionally among the shareholders of the NFT associated with the design.
+   - Artists receive compensation for sales of their designs, while NFT shareholders earn a return on their investment based on product sales.
+
+6. **Monetization through Shared Ownership:**
+   - Artists have the option to further monetize their designs by dividing the ownership of NFTs between multiple owners.
+   - Sales benefits are then distributed among the NFT owners according to the proportion of their ownership.
+
+7. **Track Performance:**
+   - Artists and NFT shareholders can track the performance of their designs and NFTs through the platform's analytics dashboard.
+   - This provides insights into sales trends, revenue generated, and the overall popularity of designs.
+
+By following these steps, artists can showcase their art, users can support their favorite creators, and the platform facilitates a thriving ecosystem where creativity is rewarded.
+
+## Credits
+
+This project utilizes the following libraries and protocols:
+- Timelock
+- Splitter
+- CW721
+- CW20
+
+
+## How to Contribute to the Project
+
+# Clone the repository
+git clone https://github.com/deauthe/deauth_andromeda
+
+# Navigate to the project directory
+cd deauth_andromeda
+
+# Install dependencies
 npm i
-# then 
-npm run dev
-# or
-yarn dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Create a new branch for your feature or fix
+git checkout -b feature/new-feature
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+# Make your changes to the code
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# Add your changes to the staging area
+git add .
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Commit your changes
+git commit -m "Add new feature or fix"
 
-## Learn More
+# Push your changes to your fork
+git push origin feature/new-feature
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## Licensing
-
-[Terms and Conditions](https://github.com/andromedaprotocol/andromeda-core/blob/development/LICENSE/LICENSE.md)
-# andromeda_project
-# andromeda_project
-# andromeda_project
-# deauth_andromeda
-# deauth_andromeda
+# Create a pull request on the GitHub repository
