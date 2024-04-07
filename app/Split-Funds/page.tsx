@@ -44,10 +44,10 @@ const CreateSplitterPage = (props: Props) => {
 
 	const instantiate_splitter_contract = async () => {
 		/* here we have hard coded the address and just shown a possible implementation of the concept as getting the owner's after querying reference nft , was not possible as we were unable to execute multiple queries at a single time 
-        
-        After getting the reference nft we would first find the parent nft (as we have it stored in local storage) and then calculate the proportion of each owner as many no. of times they appear
-        
-        */
+	    
+		After getting the reference nft we would first find the parent nft (as we have it stored in local storage) and then calculate the proportion of each owner as many no. of times they appear
+	    
+		*/
 		const splitter_instantiate_message = {
 			recipients: [
 				{
@@ -76,8 +76,8 @@ const CreateSplitterPage = (props: Props) => {
 				},
 			],
 			kernel_address:
-				"andr14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9shptkql",
-			owner: "andr13g8qm62yu5zhvk4e33zjcs63ne3sv4xt449yl4",
+				process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
+			owner: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
 		};
 
 		try {
@@ -86,7 +86,7 @@ const CreateSplitterPage = (props: Props) => {
 				splitter_instantiate_message,
 				"sending funds to owners"
 			);
-			router.push("/spend-timelock-funds");
+
 			console.log("splitterContract splitter done", splitterContract);
 			if (splitterContract) {
 				setSplitterContract(splitterContract?.contractAddress);
@@ -94,6 +94,7 @@ const CreateSplitterPage = (props: Props) => {
 					"splitter_address",
 					splitterContract?.contractAddress
 				);
+				router.push("/spend-timelock-funds");
 			}
 		} catch (error) {
 			console.error(error);
