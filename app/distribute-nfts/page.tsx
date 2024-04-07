@@ -23,6 +23,7 @@ const DistributeNfts = (props: Props) => {
 		useState<string>("");
 	const [transactionWaiting, setTransactionWaiting] = useState(false);
 	const client = useAndromedaClient();
+	const mainNftTokenId = localStorage.getItem("mainNftTokenId ");
 
 	useEffect(() => {
 		localStorage.setItem("ref_nft", refNftTokenId as string | "");
@@ -71,7 +72,7 @@ const DistributeNfts = (props: Props) => {
 
 			const imageQuery = {
 				all_nft_info: {
-					token_id: allNfts[0],
+					token_id: mainNftTokenId,
 					include_expired: false,
 				},
 			};
@@ -95,7 +96,7 @@ const DistributeNfts = (props: Props) => {
 			console.log(parsedRandomNft?.image);
 
 			setImage(parsedRandomNft?.image);
-			console.log(randomNft);
+			console.log("random nft Image:", randomNft?.info?.token_uri);
 		} catch (error) {
 			// Handle errors here
 			console.error("Error fetching NFT image:", error);
@@ -214,7 +215,9 @@ const DistributeNfts = (props: Props) => {
 		try {
 			const nft = await client?.execute(marketPlaceContractAddress, query);
 			console.log("bought nft", nft);
-		} catch (error) {}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
