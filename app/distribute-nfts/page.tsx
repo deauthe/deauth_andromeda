@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
+import useGetCodeId from "@/lib/andrjs/hooks/useGetCodeId";
+import { AndrAddress, query } from "@andromedaprotocol/andromeda.js";
 import { all } from "axios";
 import { log } from "console";
 import Image from "next/image";
@@ -11,14 +13,17 @@ type Props = {};
 
 const DistributeNfts = (props: Props) => {
 	const router = useRouter();
+	const { data: code_id } = useGetCodeId("marketplace");
 	const queryParams = useSearchParams();
 	const refNftTokenId: string | null = queryParams.get("ref_nft");
 	const contract_address: string | null = queryParams.get("contract_address");
 	const [allNfts, setAllNfts] = useState<any>([]);
 	const [image, setImage] = useState();
+	const [marketPlaceContractAddress, setMarketPlaceContractAddress] =
+		useState<string>("");
+	const [transactionWaiting, setTransactionWaiting] = useState(false);
+	const [refTokenId, setRefTokenId] = useState<string | null>(null);
 	const client = useAndromedaClient();
-
-	useEffect(() => {}, []);
 
 	const getAllNfts = async () => {
 		const queryMessage = {
@@ -38,7 +43,7 @@ const DistributeNfts = (props: Props) => {
 				);
 				return;
 			}
-			const refNft = client
+			const refNft = await client
 				?.queryContract(contract_address, queryMessage)
 				.then((res) => {
 					//@ts-ignore
@@ -46,6 +51,7 @@ const DistributeNfts = (props: Props) => {
 					const parsed_token_uri = JSON.parse(token_uri);
 					const allNfts = parsed_token_uri?.children;
 					setAllNfts(allNfts);
+					localStorage.setItem("allNfts", allNfts);
 					console.log("hello: ", allNfts);
 				});
 		} catch (error) {
@@ -55,7 +61,9 @@ const DistributeNfts = (props: Props) => {
 
 	const getNftImage = async () => {
 		try {
-			if (!allNfts || allNfts.length === 0) return;
+			if (!allNfts || allNfts.length === 0) {
+				console.log("nfts missing");
+			}
 
 			const imageQuery = {
 				all_nft_info: {
@@ -90,6 +98,86 @@ const DistributeNfts = (props: Props) => {
 		}
 	};
 
+	const sendNftsToMarket = async (all_nft_token_ids: string[]) => {
+		if (!allNfts || allNfts.length === 0) {
+			console.log("nfts missing");
+			return;
+		}
+		const marketPlaceAddress: AndrAddress = marketPlaceContractAddress;
+		if (marketPlaceAddress.length === 0) {
+			console.log("no marketplace address");
+			return;
+		}
+
+		all_nft_token_ids.forEach(async (tokenId) => {
+			const query = {
+				send_nft: {
+					contract: marketPlaceAddress,
+					token_id: tokenId,
+					msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
+				},
+			};
+			try {
+				if (!contract_address || !query || !client) {
+					console.log("something missing c:", contract_address, " q:", query);
+					return;
+				}
+
+				setTimeout(async () => {
+					const randomNft = await client?.execute(contract_address!, query);
+					console.log("nft sent: ", randomNft);
+				}, 4000);
+			} catch (error) {
+				console.error(error);
+			}
+		});
+	};
+
+	const instantiateMarketPlace = async () => {
+		const instantiateQuery = {
+			kernel_address: process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
+		};
+		try {
+			const contract = await client?.instantiate(
+				code_id!,
+				instantiateQuery,
+				"label for marketPlace contract"
+			);
+			console.log("contract", contract);
+			if (contract) {
+				setMarketPlaceContractAddress(contract?.contractAddress);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const queryMarketPlace = async (all_nft_token_ids: string[]) => {
+		try {
+			for (const tokenId of all_nft_token_ids) {
+				const query = {
+					latest_sale_state: {
+						token_id: tokenId,
+						token_address: contract_address,
+					},
+				};
+
+				if (!contract_address || !query || !client) {
+					console.log("Something is missing:", contract_address, query);
+					return;
+				}
+
+				const randomNft = await client?.queryContract(
+					marketPlaceContractAddress!,
+					query
+				);
+				console.log("NFT received:", randomNft);
+			}
+		} catch (error) {
+			console.error("Error querying MarketPlace:", error);
+		}
+	};
+
 	return (
 		<div className="mt-20">
 			<Button
@@ -97,25 +185,48 @@ const DistributeNfts = (props: Props) => {
 					getAllNfts();
 					getNftImage();
 				}}
-				className=""
 			>
-				get all nfts to sell
+				Get all NFTs to sell
 			</Button>
-			<Button onClick={() => {}} className="">
-				list on the marketPlace
+
+			<Button
+				onClick={() => {
+					instantiateMarketPlace();
+				}}
+			>
+				Instantiate MarketPlace
 			</Button>
+
+			<Button
+				onClick={() => {
+					sendNftsToMarket(allNfts);
+				}}
+			>
+				List on the MarketPlace
+			</Button>
+
 			{allNfts && allNfts.length > 0 && (
 				<div>
-					<Image src={image || ""} alt="image" width={250} height={250} />
-					<h1>total Nfts: {allNfts.length}</h1>
+					<img className="size-44" src={image || ""} alt="image" />
+					<h1>Total NFTs: {allNfts.length}</h1>
 					<ul>
-						{//@ts-ignore
-						allNfts?.map((nft, index) => {
-							return <li key={index}>{nft}</li>;
-						})}
+						{
+							//@ts-ignore
+							allNfts.map((nft, index) => {
+								return <li key={index}>{nft}</li>;
+							})
+						}
 					</ul>
 				</div>
 			)}
+
+			<Button
+				onClick={() => {
+					queryMarketPlace(allNfts);
+				}}
+			>
+				Query MarketPlace
+			</Button>
 		</div>
 	);
 };
