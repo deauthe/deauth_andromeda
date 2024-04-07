@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
 import React, { FC } from "react";
+import Link from "next/link";
 
 interface ConnectedProps {}
 const Connected: FC<ConnectedProps> = (props) => {
@@ -34,7 +35,12 @@ const Connected: FC<ConnectedProps> = (props) => {
 					<PopoverTrigger>
 						<Button>
 							<HStack mr="2">
-								<Image src={config?.iconUrls?.sm ?? ""} w="5" />
+								<Image
+									alt="icons"
+									src={config?.iconUrls?.sm ?? ""}
+									width={30}
+									height={30}
+								/>
 								<Text fontSize="md">{truncatedAddress}</Text>
 								<Badge
 									colorScheme={
@@ -77,14 +83,16 @@ const Connected: FC<ConnectedProps> = (props) => {
 								readOnly
 							/>
 							<HStack mb={2}>
-								<Button
-									href={config?.blockExplorerAddressPages[0]?.replaceAll(
-										"${address}",
-										account?.address ?? ""
-									)}
+								<Link
+									href={
+										config?.blockExplorerAddressPages[0]?.replaceAll(
+											"${address}",
+											account?.address ?? ""
+										)!
+									}
 								>
 									Explorer
-								</Button>
+								</Link>
 								<Button
 									className="flex gap-3"
 									onClick={disconnectAndromedaClient}

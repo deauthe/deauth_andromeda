@@ -203,9 +203,11 @@ const SellButton = ({
 	const createReferenceNft = async (allNfts: TokenData[]) => {
 		const reference_nft_token_id = uuidv4();
 		const tokenUris = allNfts.map((nft, index) => {
-			return nft?.token_uri;
+			const token_id = nft?.token_id;
+			return token_id;
 		});
-		const token_uri = JSON.stringify(tokenUris);
+
+		const token_uri = JSON.stringify({ children: tokenUris });
 		const queryMessage = {
 			mint: {
 				token_id: reference_nft_token_id,
@@ -221,7 +223,9 @@ const SellButton = ({
 			.then((response) => {
 				console.log("created reference nft");
 				console.log(reference_nft_token_id, ": ref nft token id");
-				router.push(`/distribute-nfts?ref_nft=${reference_nft_token_id}`);
+				router.push(
+					`/distribute-nfts?ref_nft=${reference_nft_token_id}&contract_address=${contract_address}`
+				);
 			});
 	};
 
