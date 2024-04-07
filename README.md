@@ -37,11 +37,45 @@ To get started with the development server, follow these steps:
 
 
 ## Project Idea
+### Challenges with cw721 for Child NFTs
+
+The cw721 standard, commonly used for creating NFTs on the Cosmos blockchain, presents a challenge for our specific use case. If we were to mint child NFTs directly using cw721 and link them to parent NFTs by referencing the parent's address, anyone could potentially mint a child NFT by simply including the parent's address in their transaction. This would compromise the integrity of the parent-child relationship and potentially lead to unwanted or unauthorized child NFTs.
+
+### Proposed Solution: Reference NFT
+
+To address the cw721 limitation, we propose introducing a new NFT type: a reference NFT. This reference NFT would act as a bridge between the parent and child NFTs. Here's how it would work:
+
+-    Minting Process:
+        - A parent NFT is minted using the standard cw721 protocol.
+        - A separate reference NFT is minted. This NFT stores the addresses of both the parent and child NFTs.
+        - A child NFT is minted using cw721.
+
+-    Establishing the Relationship:
+        - During the minting process of the child NFT, the transaction must include a reference to the corresponding reference NFT.
+        - The reference NFT acts as a gatekeeper, ensuring only authorized child NFTs with a valid reference can be linked to the parent.
+
+-    Removing Unwanted Children:
+        - Since the reference NFT holds the addresses of both parent and child, it can be used to manage the relationship.
+        - If a child NFT needs to be removed (deemed unwanted or unauthorized), the reference NFT can be updated to remove the association with that specific child NFT address.
+
+### Benefits of the Reference NFT Approach
+
+- Security: Prevents unauthorized creation of child NFTs by requiring a valid reference during the minting process.
+
+- Flexibility: Allows for future additions of child NFTs as long as they can be linked to a valid reference NFT.
+    
+- Transparency: The reference NFT provides a clear record of the parent-child relationships on the blockchain.
+---
 <p>&nbsp;</p>
 <p align="center">
-<img src="./assets/idea.png" width=1000>
+<img src="./assets/idea2.png" width=1000>
+</p>
+<p>&nbsp;</p>
+<p align="center">
+<img src="./assets/idea1.png" width=1000>
 </p>
 
+---
 
 
 ## How to Use the Project
@@ -84,6 +118,7 @@ This project utilizes the following libraries and protocols:
 - Splitter
 - CW721
 - Marketplace
+- CW20
 
 
 ## How to Contribute to the Project
