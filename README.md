@@ -8,10 +8,12 @@ The DEAUTH platform addresses the struggles faced by new aspiring illustrators b
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Project Idea](#project-idea)
 - [How to Use the Project](#how-to-use-the-project)
 - [Credits](#credits)
-- [License](#license)
 - [How to Contribute to the Project](#how-to-contribute-to-the-project)
+- [Helpful Links](#helpful-links)
+
 
 ## Getting Started
 
@@ -32,6 +34,7 @@ To get started with the development server, follow these steps:
     ```
 
 3. **Open http://localhost:3000 with your browser** to see the result.
+
 
 ## Project Idea
 <p>&nbsp;</p>
@@ -109,6 +112,7 @@ This project utilizes the following libraries and protocols:
     git push origin feature/new-feature
 
 ### Create a pull request on the GitHub repository
+---
 
 ## Helpful links
 [AndromedaOs Docs](https://docs.andromedaprotocol.io/andromeda) <br>
