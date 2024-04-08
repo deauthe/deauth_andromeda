@@ -157,22 +157,6 @@ const DistributeNfts = (props: Props) => {
 				},
 			});
 
-			const nft5 = await client?.signAndBroadcast(
-				[
-					{
-						typeUrl: "",
-						value: {
-							send_nft: {
-								contract: marketPlaceAddress,
-								token_id: all_nft_token_ids[3],
-								msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
-							},
-						},
-					},
-				],
-				0
-			);
-
 			console.log("nft sent: ", nft1, nft2, nft3, nft4);
 		} catch (error) {
 			console.error(error);
@@ -217,7 +201,7 @@ const DistributeNfts = (props: Props) => {
 
 			const sentNft = await client?.signAndBroadcast(
 				endcoded_messages as EncodeObject[],
-				0
+				"auto"
 			);
 
 			console.log("nft sent: ", sentNft);
