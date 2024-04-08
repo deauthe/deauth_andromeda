@@ -24,7 +24,9 @@ const CreateNftPage = (props: Props) => {
 	const { data: code_id } = useGetCodeId("cw721");
 	const [contract, setContract] = useState({});
 
+
 	const [contractAddress, setContractAddress] = useState("");
+
 	const [CW721contract, setCW721Contract] = useState("");
 
 	const getDesignerDetails = async () => {
