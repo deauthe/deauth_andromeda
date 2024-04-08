@@ -76,6 +76,8 @@ In implementing the feature allowing designers to submit multiple designs for NF
 
 ### Solution:
 To address this challenge, we implemented a verification process during NFT purchases. We validate both the owner's ID and the associated child ID to confirm the NFT's availability for sale. This verification step adds an extra layer of security and ensures that only legitimate NFTs are available for purchase.
+    
+[Backend Repository.](https://github.com/Legend101Zz/Deauth_Andromeda_Backend)
 
 ### Security Measures:
 The data associated with this verification process is securely stored in our backend system. We retain only public addresses, ensuring the confidentiality of sensitive information while maintaining robust security measures. This approach safeguards user data and enhances the overall integrity of the platform.
