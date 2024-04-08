@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4, V4Options } from "uuid";
 import { Row, Form } from "react-bootstrap";
 import { create as ipfsHttpClient } from "ipfs-http-client";
@@ -31,21 +31,22 @@ const client = ipfsHttpClient({
 
 const CreateNftButton = ({
 	andromeda_client,
-	contract_address,
+	wallet_address,
 }: {
 	andromeda_client: AndromedaClient | undefined;
-	contract_address: string;
+	wallet_address: string;
 }) => {
-	// console.log(marketplace,nft,"this is food");
+	console.log('checking andromeda', andromeda_client);
 
 	const [image, setImage] = useState("");
 	const [price, setPrice] = useState(null);
 	const [name, setName] = useState("");
+	const [CW721contract, setCW721Contract] = useState("");
 	const [description, setDescription] = useState("");
 
 
 
-	
+
 	//@ts-ignore
 	const uploadToIPFS = async (event) => {
 		event.preventDefault();
@@ -92,31 +93,41 @@ const CreateNftButton = ({
 
 	const getDesignerDetails = async () => {
 		try {
-		  const response = await fetch("/api/getDesignerDetails", {
-			method: "POST",
-			headers: {
-			  "Content-Type": "application/json",
-			},
-			body: JSON.stringify({ walletAddr }),
-		  });
-	
-		  if (!response.ok) {
-			throw new Error("Failed to fetch designer details");
-		  }
-	
-		  const data = await response.json();
-		  const { cw721_addr, associated_marketplace_addr } = data;
-		  setCw721Addr(cw721_addr);
-		  setMarketplaceAddr(associated_marketplace_addr);
+			const response = await fetch("/api/getDesignerDetails", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify({ walletAddr: wallet_address }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to fetch designer details");
+			}
+
+			const data = await response.json();
+			const { cw721_addr, associated_marketplace_addr } = data;
+			console.log('api hit got contract addr', data)
+			setCW721Contract(cw721_addr);
+
 		} catch (error) {
-		  console.error("Error:", error);
+			console.error("Error:", error);
 		}
-	  };
+	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			await getDesignerDetails();
+			console.log('api done')
+		};
+		fetchData();
+	}, [wallet_address]); // Call only once when the component mounts
 
 	const mintNft = (token_id: string, owner: string, token_uri: string) => {
 		console.log(
 			"this is my contract and my token Id: ",
-			contract_address,
+			CW721contract,
 			token_id
 		);
 		const mintMessage = {
@@ -129,7 +140,7 @@ const CreateNftButton = ({
 				},
 			},
 		};
-		andromeda_client?.execute(contract_address, mintMessage);
+		andromeda_client?.execute(CW721contract, mintMessage);
 		localStorage.setItem("mainNftTokenId", token_id);
 	};
 	return (

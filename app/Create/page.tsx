@@ -28,7 +28,7 @@ const CreateNftPage = (props: Props) => {
 	const [contractAddress, setContractAddress] = useState(
 		"andr1w74keyxuw4durau8spke9jlk8xnlgzwrh457gnwzgak3x49lkpzqe3u4sg"
 	);
-	console.log(serverAddr)
+
 
 	const instantiate_contract = async () => {
 		const cw721_instantiate_message = {
@@ -108,7 +108,7 @@ const CreateNftPage = (props: Props) => {
 				</Button>
 				<CreateNftButton
 					andromeda_client={client}
-					contract_address={contractAddress}
+					wallet_address={process.env.NEXT_PUBLIC_WALLET_ADDRESS ? process.env.NEXT_PUBLIC_WALLET_ADDRESS : "andr12yss47wjjqufx9jle8mjscal3jravrejns5km1"}
 
 				/>
 
