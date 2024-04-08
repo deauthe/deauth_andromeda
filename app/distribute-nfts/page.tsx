@@ -280,6 +280,14 @@ const DistributeNfts = (props: Props) => {
 				<Button
 					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white "
 					onClick={() => {
+						instantiateMarketPlace();
+					}}
+				>
+					1. Instantiate MarketPlace
+				</Button>
+				<Button
+					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white "
+					onClick={() => {
 						getAllNfts();
 						getNftImage();
 					}}
@@ -290,19 +298,27 @@ const DistributeNfts = (props: Props) => {
 				<Button
 					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white "
 					onClick={() => {
-						instantiateMarketPlace();
-					}}
-				>
-					Instantiate MarketPlace
-				</Button>
-
-				<Button
-					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white "
-					onClick={() => {
 						sendNftsToMarket(allNfts);
 					}}
 				>
 					List on the MarketPlace
+				</Button>
+
+				<Button
+					onClick={() => {
+						queryMarketPlace(allNfts);
+					}}
+					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white "
+				>
+					Query MarketPlace
+				</Button>
+				<Button
+					onClick={() => {
+						batchSendNft(allNfts);
+					}}
+					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white "
+				>
+					batchSend
 				</Button>
 			</div>
 
@@ -335,24 +351,6 @@ const DistributeNfts = (props: Props) => {
 					</ul>
 				</div>
 			)}
-			<div className="flex justify-center">
-				<Button
-					onClick={() => {
-						queryMarketPlace(allNfts);
-					}}
-					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white  mt-8"
-				>
-					Query MarketPlace
-				</Button>
-				<Button
-					onClick={() => {
-						batchSendNft(allNfts);
-					}}
-					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white  mt-8"
-				>
-					batchSend
-				</Button>
-			</div>
 		</div>
 	);
 };

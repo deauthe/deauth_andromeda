@@ -13,25 +13,66 @@ import { generateTokens, TokenData } from "@/helpers/generateTokenUri";
 import { useRouter } from "next/navigation";
 import { randomUUID } from "crypto";
 import { v4 as uuidv4, V4Options } from "uuid";
+import { useToast } from "@chakra-ui/react";
 
 type Props = {};
 
 const CreateNftPage = (props: Props) => {
+	const serverAddr = process.env.NEXT_PUBLIC_SERVER_URL;
 	const client = useAndromedaClient();
+	const toast = useToast();
 	const { data: code_id } = useGetCodeId("cw721");
 	const [contract, setContract] = useState({});
 
 	const [contractAddress, setContractAddress] = useState(
-		"andr1c8a0pfplfp0h74t0fq84d94wzfdzrl9d7ttl7z66yrc6wr8aehgqft47w8"
+
+		""
 	);
+	const [CW721contract, setCW721Contract] = useState("");
+
+
+	const getDesignerDetails = async () => {
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL
+				}/api/designer/getDesignerDetails`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify({ walletAddr: process.env.NEXT_PUBLIC_WALLET_ADDRESS }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to fetch designer details");
+			}
+
+			const data = await response.json();
+			const { cw721_addr, associated_marketplace_addr } = data;
+			console.log("api hit got contract addr 22", data);
+			setCW721Contract(cw721_addr);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			await getDesignerDetails();
+			console.log("api done");
+		};
+		fetchData();
+	}, []);
+
 
 	const instantiate_contract = async () => {
 		const cw721_instantiate_message = {
-			name: "Example Token",
-			symbol: "ET",
+			name: "Deauth Token",
+			symbol: "DT",
 			minter: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
 			kernel_address: process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
 		};
+
 		try {
 			const contract = await client?.instantiate(
 				code_id!,
@@ -42,14 +83,54 @@ const CreateNftPage = (props: Props) => {
 			if (contract) {
 				setContract(contract);
 				setContractAddress(contract?.contractAddress);
+				// Add API POST request data here
+				const postData = {
+					wallet_addr: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
+					associated_marketplace_addr: process.env.NEXT_PUBLIC_MARKETPLACE_ADDR,
+					cw721_addr: contract?.contractAddress,
+				};
+				console.log(postData);
+				await postDataToAPI(postData);
+				toast({
+					title: "Designer created successfully",
+					status: "success",
+					duration: 3000,
+					isClosable: true,
+				});
 			}
 		} catch (error) {
 			console.error(error);
+			toast({
+				title: "Failed to create designer",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+		}
+	};
+
+	const postDataToAPI = async (data: any) => {
+		try {
+			const response = await fetch(`${serverAddr}/api/designer/create`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify(data),
+			});
+			if (response.ok) {
+				console.log("Designer created successfully");
+			} else {
+				console.error("Failed to create designer:", response.statusText);
+			}
+		} catch (error) {
+			console.error("Error creating designer:", error);
 		}
 	};
 
 	return (
-		<Wrapper> 
+		<Wrapper>
 			<div className="mt-20  w-full relative  ">
 				<Button
 					className=" text-white px-5 mt-5 absolute my-8 -top-[8em]  left-1/2 transform -translate-x-1/2 bg-red-400 rounded-none  "
@@ -59,11 +140,14 @@ const CreateNftPage = (props: Props) => {
 				</Button>
 				<CreateNftButton
 					andromeda_client={client}
-					contract_address={contractAddress}
-					
+					wallet_address={
+						process.env.NEXT_PUBLIC_WALLET_ADDRESS
+							? process.env.NEXT_PUBLIC_WALLET_ADDRESS
+							: "andr12yss47wjjqufx9jle8mjscal3jravrejns5km1"
+					}
 				/>
 
-				<NftArea client={client} contract_address={contractAddress} />
+				<NftArea client={client} contract_address={CW721contract} />
 			</div>
 		</Wrapper>
 	);
@@ -77,9 +161,12 @@ const NftArea = ({
 	contract_address: string;
 	client: AndromedaClient | undefined;
 }) => {
+
+	console.log('NFT AREA ADDR', contract_address)
 	const [mainNftTokenId, setMainNftTokenId] = useState<string>("");
 	const [image, setImage] = useState("");
 	const [nfts, setNfts] = useState([""]);
+
 
 	useEffect(() => {
 		// Get count from localStorage when component mounts
@@ -113,6 +200,8 @@ const NftArea = ({
 			},
 		};
 		try {
+			const nfts = await client?.queryContract(contract_address, queryMessage);
+			setNfts(nfts);
 			if (mainNftTokenId) {
 				console.log("mainToken", mainNftTokenId);
 				const mainNft = await client?.queryContract(
@@ -126,8 +215,6 @@ const NftArea = ({
 				console.log(mainNft);
 			}
 
-			const nfts = await client?.queryContract(contract_address, queryMessage);
-			setNfts(nfts);
 			console.log(nfts);
 		} catch (error) {
 			console.error(error);
@@ -137,7 +224,10 @@ const NftArea = ({
 	return (
 		<div className="w-fullflex mt-10 h-fit flex-col ">
 			<div className="w-fit mx-auto">
-				<Button onClick={queryAllNfts} className="mx-auto bg-red-400 rounded-none ">
+				<Button
+					onClick={queryAllNfts}
+					className="mx-auto bg-red-400 rounded-none "
+				>
 					Get All NFTs
 				</Button>
 			</div>
@@ -145,22 +235,22 @@ const NftArea = ({
 				{
 					//@ts-ignore
 					nfts?.tokens?.length >= 0 &&
-						//@ts-ignore
-						nfts.tokens.map((item, index) => (
-							<div key={index} className="size-44  rounded-lg">
-								{image ? (
-									<Image
-										className="mx-auto"
-										alt="nftImage"
-										src={image}
-										width={150}
-										height={150}
-									/>
-								) : (
-									<div className="p-1 bg-blue-300"></div>
-								)}
-							</div>
-						))
+					//@ts-ignore
+					nfts.tokens.map((item, index) => (
+						<div key={index} className="size-44  rounded-lg">
+							{image ? (
+								<Image
+									className="mx-auto"
+									alt="nftImage"
+									src={image}
+									width={150}
+									height={150}
+								/>
+							) : (
+								<div className="p-1 bg-blue-300"></div>
+							)}
+						</div>
+					))
 				}
 			</div>
 			{
