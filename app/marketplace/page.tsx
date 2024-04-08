@@ -91,15 +91,8 @@ const MarketPlace = (props: Props) => {
                 </div>
               </div>
 
-              <div className=" flex justify-center ">
-                <Button
-                  className=" border-2 border-red-400 rounded-none bg-transparent text-white hover:bg-red-400 hover:text-white"
-                  onClick={() => {
-                    buyNft(item);
-                  }}
-                >
-                  Buy Your NFT
-                </Button>
+             <div className="flex justify-center">
+             <CustomModal/>
               </div>
             </div>
           );

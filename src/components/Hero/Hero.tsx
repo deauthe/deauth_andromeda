@@ -52,7 +52,7 @@ const HeroBanner = () => {
         <button
           className="button1   font-extrabold "
           onClick={() => {
-            router.push("/Create");
+            router.push("/marketplace");
           }}
         >
           Go to Marketplace
