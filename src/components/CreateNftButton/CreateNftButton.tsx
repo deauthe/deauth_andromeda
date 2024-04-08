@@ -11,6 +11,7 @@ import { NFT_metadata } from "@/helpers/staticRandomNfts";
 // const client = ipfsHttpClient('https://uniqo.infura-ipfs.io')
 const projectId = "2ONjCGu7UlrPOzmZ3hqy8WlN2GC";
 const projectSecretKey = "43cc6a424bd74fd70d8a175972fbba87";
+import { useRouter } from "next/navigation";
 
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
 	"base64"
@@ -36,16 +37,14 @@ const CreateNftButton = ({
 	andromeda_client: AndromedaClient | undefined;
 	wallet_address: string;
 }) => {
-	console.log('checking andromeda', andromeda_client);
-
+	console.log("checking andromeda", andromeda_client);
+	const router = useRouter();
 	const [image, setImage] = useState("");
 	const [price, setPrice] = useState(null);
 	const [name, setName] = useState("");
 	const [CW721contract, setCW721Contract] = useState("");
 	const [description, setDescription] = useState("");
-
-
-
+	const [isloading, setLoading] = useState(true);
 
 	//@ts-ignore
 	const uploadToIPFS = async (event) => {
@@ -85,9 +84,10 @@ const CreateNftButton = ({
 				image: image,
 			};
 
-			mintNft(token_id, owner_of_minted_nft, JSON.stringify(token_uri));
+			await mintNft(token_id, owner_of_minted_nft, JSON.stringify(token_uri));
 		} catch (error) {
 			console.log("ipfs uri upload error: ", error);
+			setLoading(false);
 		}
 	};
 
@@ -108,9 +108,8 @@ const CreateNftButton = ({
 
 			const data = await response.json();
 			const { cw721_addr, associated_marketplace_addr } = data;
-			console.log('api hit got contract addr', data)
+			console.log("api hit got contract addr", data);
 			setCW721Contract(cw721_addr);
-
 		} catch (error) {
 			console.error("Error:", error);
 		}
@@ -119,12 +118,16 @@ const CreateNftButton = ({
 	useEffect(() => {
 		const fetchData = async () => {
 			await getDesignerDetails();
-			console.log('api done')
+			console.log("api done");
 		};
 		fetchData();
 	}, [wallet_address]); // Call only once when the component mounts
 
-	const mintNft = (token_id: string, owner: string, token_uri: string) => {
+	const mintNft = async (
+		token_id: string,
+		owner: string,
+		token_uri: string
+	) => {
 		console.log(
 			"this is my contract and my token Id: ",
 			CW721contract,
@@ -140,7 +143,12 @@ const CreateNftButton = ({
 				},
 			},
 		};
-		andromeda_client?.execute(CW721contract, mintMessage);
+		const mintedNft = await andromeda_client
+			?.execute(CW721contract, mintMessage)
+			.then((res) => {
+				console.log("nft minted succesfullt", res);
+				router.refresh();
+			});
 		localStorage.setItem("mainNftTokenId", token_id);
 	};
 	return (
