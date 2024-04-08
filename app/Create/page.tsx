@@ -13,13 +13,12 @@ import { generateTokens, TokenData } from "@/helpers/generateTokenUri";
 import { useRouter } from "next/navigation";
 import { randomUUID } from "crypto";
 import { v4 as uuidv4, V4Options } from "uuid";
-import { useToast } from '@chakra-ui/react';
-
+import { useToast } from "@chakra-ui/react";
 
 type Props = {};
 
 const CreateNftPage = (props: Props) => {
-	const serverAddr = process.env.NEXT_PUBLIC_SERVER_URL
+	const serverAddr = process.env.NEXT_PUBLIC_SERVER_URL;
 	const client = useAndromedaClient();
 	const toast = useToast();
 	const { data: code_id } = useGetCodeId("cw721");
@@ -29,7 +28,6 @@ const CreateNftPage = (props: Props) => {
 		"andr1w74keyxuw4durau8spke9jlk8xnlgzwrh457gnwzgak3x49lkpzqe3u4sg"
 	);
 
-
 	const instantiate_contract = async () => {
 		const cw721_instantiate_message = {
 			name: "Deauth Token",
@@ -37,7 +35,6 @@ const CreateNftPage = (props: Props) => {
 			minter: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
 			kernel_address: process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
 		};
-
 
 		try {
 			const contract = await client?.instantiate(
@@ -72,7 +69,6 @@ const CreateNftPage = (props: Props) => {
 				duration: 3000,
 				isClosable: true,
 			});
-
 		}
 	};
 
@@ -90,7 +86,6 @@ const CreateNftPage = (props: Props) => {
 				console.log("Designer created successfully");
 			} else {
 				console.error("Failed to create designer:", response.statusText);
-
 			}
 		} catch (error) {
 			console.error("Error creating designer:", error);
@@ -108,8 +103,11 @@ const CreateNftPage = (props: Props) => {
 				</Button>
 				<CreateNftButton
 					andromeda_client={client}
-					wallet_address={process.env.NEXT_PUBLIC_WALLET_ADDRESS ? process.env.NEXT_PUBLIC_WALLET_ADDRESS : "andr12yss47wjjqufx9jle8mjscal3jravrejns5km1"}
-
+					wallet_address={
+						process.env.NEXT_PUBLIC_WALLET_ADDRESS
+							? process.env.NEXT_PUBLIC_WALLET_ADDRESS
+							: "andr12yss47wjjqufx9jle8mjscal3jravrejns5km1"
+					}
 				/>
 
 				<NftArea client={client} contract_address={contractAddress} />
@@ -162,6 +160,8 @@ const NftArea = ({
 			},
 		};
 		try {
+			const nfts = await client?.queryContract(contract_address, queryMessage);
+			setNfts(nfts);
 			if (mainNftTokenId) {
 				console.log("mainToken", mainNftTokenId);
 				const mainNft = await client?.queryContract(
@@ -175,8 +175,6 @@ const NftArea = ({
 				console.log(mainNft);
 			}
 
-			const nfts = await client?.queryContract(contract_address, queryMessage);
-			setNfts(nfts);
 			console.log(nfts);
 		} catch (error) {
 			console.error(error);
@@ -186,7 +184,10 @@ const NftArea = ({
 	return (
 		<div className="w-fullflex mt-10 h-fit flex-col ">
 			<div className="w-fit mx-auto">
-				<Button onClick={queryAllNfts} className="mx-auto bg-red-400 rounded-none ">
+				<Button
+					onClick={queryAllNfts}
+					className="mx-auto bg-red-400 rounded-none "
+				>
 					Get All NFTs
 				</Button>
 			</div>
@@ -194,22 +195,22 @@ const NftArea = ({
 				{
 					//@ts-ignore
 					nfts?.tokens?.length >= 0 &&
-					//@ts-ignore
-					nfts.tokens.map((item, index) => (
-						<div key={index} className="size-44  rounded-lg">
-							{image ? (
-								<Image
-									className="mx-auto"
-									alt="nftImage"
-									src={image}
-									width={150}
-									height={150}
-								/>
-							) : (
-								<div className="p-1 bg-blue-300"></div>
-							)}
-						</div>
-					))
+						//@ts-ignore
+						nfts.tokens.map((item, index) => (
+							<div key={index} className="size-44  rounded-lg">
+								{image ? (
+									<Image
+										className="mx-auto"
+										alt="nftImage"
+										src={image}
+										width={150}
+										height={150}
+									/>
+								) : (
+									<div className="p-1 bg-blue-300"></div>
+								)}
+							</div>
+						))
 				}
 			</div>
 			{
