@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4, V4Options } from "uuid";
 import { Row, Form } from "react-bootstrap";
 import { create as ipfsHttpClient } from "ipfs-http-client";
@@ -11,6 +11,7 @@ import { NFT_metadata } from "@/helpers/staticRandomNfts";
 // const client = ipfsHttpClient('https://uniqo.infura-ipfs.io')
 const projectId = "2ONjCGu7UlrPOzmZ3hqy8WlN2GC";
 const projectSecretKey = "43cc6a424bd74fd70d8a175972fbba87";
+import { useRouter } from "next/navigation";
 
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
 	"base64"
@@ -31,17 +32,23 @@ const client = ipfsHttpClient({
 
 const CreateNftButton = ({
 	andromeda_client,
-	contract_address,
+	wallet_address,
 }: {
 	andromeda_client: AndromedaClient | undefined;
-	contract_address: string;
+	wallet_address: string;
 }) => {
-	// console.log(marketplace,nft,"this is food");
 
+
+	console.log(process.env.NEXT_PUBLIC_WALLET_ADDRESS)
+	const router = useRouter();
+	const serverAddr = process.env.NEXT_PUBLIC_SERVER_URL;
 	const [image, setImage] = useState("");
 	const [price, setPrice] = useState(null);
 	const [name, setName] = useState("");
+	const [CW721contract, setCW721Contract] = useState("");
 	const [description, setDescription] = useState("");
+	const [isloading, setLoading] = useState(true);
+
 	//@ts-ignore
 	const uploadToIPFS = async (event) => {
 		event.preventDefault();
@@ -80,15 +87,85 @@ const CreateNftButton = ({
 				image: image,
 			};
 
-			mintNft(token_id, owner_of_minted_nft, JSON.stringify(token_uri));
+			await mintNft(token_id, owner_of_minted_nft, JSON.stringify(token_uri));
+			await handleCreateDesign(owner_of_minted_nft, token_id,)
 		} catch (error) {
 			console.log("ipfs uri upload error: ", error);
+			setLoading(false);
 		}
 	};
-	const mintNft = (token_id: string, owner: string, token_uri: string) => {
+
+
+	const handleCreateDesign = async (designerWalletAddr: any, parentNftTokenId: any) => {
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL
+				}/api/design/create`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify({
+					designerWalletAddr,
+					parentNftTokenId,
+
+				}),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.message);
+			}
+			console.log("added parent nft", data)
+
+		} catch (error: any) {
+			console.error('Error:', error.message);
+			console.log('Failed to create design');
+		}
+	};
+
+	const getDesignerDetails = async () => {
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL
+				}/api/designer/getDesignerDetails`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify({ walletAddr: process.env.NEXT_PUBLIC_WALLET_ADDRESS }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to fetch designer details");
+			}
+
+			const data = await response.json();
+			const { cw721_addr, associated_marketplace_addr } = data;
+			console.log("api hit got contract addr", data);
+			setCW721Contract(cw721_addr);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			await getDesignerDetails();
+			console.log("api done");
+		};
+		fetchData();
+	}, [wallet_address]); // Call only once when the component mounts
+
+	const mintNft = async (
+		token_id: string,
+		owner: string,
+		token_uri: string
+	) => {
 		console.log(
 			"this is my contract and my token Id: ",
-			contract_address,
+			CW721contract,
 			token_id
 		);
 		const mintMessage = {
@@ -101,7 +178,12 @@ const CreateNftButton = ({
 				},
 			},
 		};
-		andromeda_client?.execute(contract_address, mintMessage);
+		const mintedNft = await andromeda_client
+			?.execute(CW721contract, mintMessage)
+			.then((res) => {
+				console.log("nft minted succesfullt", res);
+				router.refresh();
+			});
 		localStorage.setItem("mainNftTokenId", token_id);
 	};
 	return (
