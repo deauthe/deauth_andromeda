@@ -37,8 +37,11 @@ const CreateNftButton = ({
 	andromeda_client: AndromedaClient | undefined;
 	wallet_address: string;
 }) => {
-	console.log("checking andromeda", andromeda_client);
+
+
+	console.log(process.env.NEXT_PUBLIC_WALLET_ADDRESS)
 	const router = useRouter();
+	const serverAddr = process.env.NEXT_PUBLIC_SERVER_URL;
 	const [image, setImage] = useState("");
 	const [price, setPrice] = useState(null);
 	const [name, setName] = useState("");
@@ -85,21 +88,53 @@ const CreateNftButton = ({
 			};
 
 			await mintNft(token_id, owner_of_minted_nft, JSON.stringify(token_uri));
+			await handleCreateDesign(owner_of_minted_nft, token_id,)
 		} catch (error) {
 			console.log("ipfs uri upload error: ", error);
 			setLoading(false);
 		}
 	};
 
+
+	const handleCreateDesign = async (designerWalletAddr: any, parentNftTokenId: any) => {
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL
+				}/api/design/create`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify({
+					designerWalletAddr,
+					parentNftTokenId,
+
+				}),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.message);
+			}
+			console.log("added parent nft", data)
+
+		} catch (error: any) {
+			console.error('Error:', error.message);
+			console.log('Failed to create design');
+		}
+	};
+
 	const getDesignerDetails = async () => {
 		try {
-			const response = await fetch("/api/getDesignerDetails", {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL
+				}/api/designer/getDesignerDetails`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					"x-api-key": "deauthAndromeda",
 				},
-				body: JSON.stringify({ walletAddr: wallet_address }),
+				body: JSON.stringify({ walletAddr: process.env.NEXT_PUBLIC_WALLET_ADDRESS }),
 			});
 
 			if (!response.ok) {

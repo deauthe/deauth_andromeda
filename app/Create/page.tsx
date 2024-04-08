@@ -25,8 +25,44 @@ const CreateNftPage = (props: Props) => {
 	const [contract, setContract] = useState({});
 
 	const [contractAddress, setContractAddress] = useState(
-		"andr1w74keyxuw4durau8spke9jlk8xnlgzwrh457gnwzgak3x49lkpzqe3u4sg"
+		""
 	);
+	const [CW721contract, setCW721Contract] = useState("");
+
+
+	const getDesignerDetails = async () => {
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL
+				}/api/designer/getDesignerDetails`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": "deauthAndromeda",
+				},
+				body: JSON.stringify({ walletAddr: process.env.NEXT_PUBLIC_WALLET_ADDRESS }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to fetch designer details");
+			}
+
+			const data = await response.json();
+			const { cw721_addr, associated_marketplace_addr } = data;
+			console.log("api hit got contract addr 22", data);
+			setCW721Contract(cw721_addr);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			await getDesignerDetails();
+			console.log("api done");
+		};
+		fetchData();
+	}, []);
+
 
 	const instantiate_contract = async () => {
 		const cw721_instantiate_message = {
@@ -110,7 +146,7 @@ const CreateNftPage = (props: Props) => {
 					}
 				/>
 
-				<NftArea client={client} contract_address={contractAddress} />
+				<NftArea client={client} contract_address={CW721contract} />
 			</div>
 		</Wrapper>
 	);
@@ -124,9 +160,12 @@ const NftArea = ({
 	contract_address: string;
 	client: AndromedaClient | undefined;
 }) => {
+
+	console.log('NFT AREA ADDR', contract_address)
 	const [mainNftTokenId, setMainNftTokenId] = useState<string>("");
 	const [image, setImage] = useState("");
 	const [nfts, setNfts] = useState([""]);
+
 
 	useEffect(() => {
 		// Get count from localStorage when component mounts
@@ -195,22 +234,22 @@ const NftArea = ({
 				{
 					//@ts-ignore
 					nfts?.tokens?.length >= 0 &&
-						//@ts-ignore
-						nfts.tokens.map((item, index) => (
-							<div key={index} className="size-44  rounded-lg">
-								{image ? (
-									<Image
-										className="mx-auto"
-										alt="nftImage"
-										src={image}
-										width={150}
-										height={150}
-									/>
-								) : (
-									<div className="p-1 bg-blue-300"></div>
-								)}
-							</div>
-						))
+					//@ts-ignore
+					nfts.tokens.map((item, index) => (
+						<div key={index} className="size-44  rounded-lg">
+							{image ? (
+								<Image
+									className="mx-auto"
+									alt="nftImage"
+									src={image}
+									width={150}
+									height={150}
+								/>
+							) : (
+								<div className="p-1 bg-blue-300"></div>
+							)}
+						</div>
+					))
 				}
 			</div>
 			{
