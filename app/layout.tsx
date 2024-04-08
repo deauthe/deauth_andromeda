@@ -14,30 +14,31 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-	children?: ReactNode;
+  children?: ReactNode;
 }
 
 const RootLayout = async (props: Props) => {
-	const { children } = props;
+  const { children } = props;
 
-	return (
-		<html lang="en">
-			<body className="bg-black z-40">
-				<Image
-					src={"/HeroBanner.gif"}
-					alt="haha"
-					layout="fill"
-					objectFit="cover"
-					className="object-fill -z-10 "
-				/>
-				<Providers>
-					<Navbar />
-
-					{children}
-				</Providers>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className="relative bg-black">
+        <div className="fixed inset-0 -z-50">
+          <Image
+            src={"/HeroBanner.gif"}
+            alt="haha"
+            layout="fill"
+            objectFit="cover"
+            className="object-fill"
+          />
+        </div>
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
+      </body>
+    </html>
+  );
 };
 
 export default RootLayout;

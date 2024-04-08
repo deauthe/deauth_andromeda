@@ -22,7 +22,7 @@ const CreateNftPage = (props: Props) => {
 	const [contract, setContract] = useState({});
 
 	const [contractAddress, setContractAddress] = useState(
-		"andr1w74keyxuw4durau8spke9jlk8xnlgzwrh457gnwzgak3x49lkpzqe3u4sg"
+		"andr1c8a0pfplfp0h74t0fq84d94wzfdzrl9d7ttl7z66yrc6wr8aehgqft47w8"
 	);
 
 	const instantiate_contract = async () => {
