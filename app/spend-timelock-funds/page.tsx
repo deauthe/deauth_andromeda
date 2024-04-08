@@ -40,6 +40,19 @@ const ShirtSalePage = () => {
         }
     }
 
+
+    interface Coin {
+        denom: string;
+        amount: string;
+    }
+
+
+    const coin: Coin = {
+        denom: "uandr",
+        amount: "1000",
+    };
+
+
     const create_timelock = async () => {
         try {
             const contract = await client?.instantiate(
@@ -64,7 +77,7 @@ const ShirtSalePage = () => {
         try {
 
 
-            const contract = await client?.execute(timeLockContractAddress, timelock_distribute_funds)
+            const contract = await client?.execute(timeLockContractAddress, timelock_distribute_funds, undefined, undefined, [coin])
             console.log("contract timelock hold funds done", contract);
 
         } catch (error) {

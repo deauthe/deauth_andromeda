@@ -42,6 +42,10 @@ const CreateNftButton = ({
 	const [price, setPrice] = useState(null);
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
+
+
+
+	
 	//@ts-ignore
 	const uploadToIPFS = async (event) => {
 		event.preventDefault();
@@ -85,6 +89,30 @@ const CreateNftButton = ({
 			console.log("ipfs uri upload error: ", error);
 		}
 	};
+
+	const getDesignerDetails = async () => {
+		try {
+		  const response = await fetch("/api/getDesignerDetails", {
+			method: "POST",
+			headers: {
+			  "Content-Type": "application/json",
+			},
+			body: JSON.stringify({ walletAddr }),
+		  });
+	
+		  if (!response.ok) {
+			throw new Error("Failed to fetch designer details");
+		  }
+	
+		  const data = await response.json();
+		  const { cw721_addr, associated_marketplace_addr } = data;
+		  setCw721Addr(cw721_addr);
+		  setMarketplaceAddr(associated_marketplace_addr);
+		} catch (error) {
+		  console.error("Error:", error);
+		}
+	  };
+
 	const mintNft = (token_id: string, owner: string, token_uri: string) => {
 		console.log(
 			"this is my contract and my token Id: ",
