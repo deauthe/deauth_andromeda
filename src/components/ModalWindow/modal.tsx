@@ -29,7 +29,16 @@ function CustomModalContent() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant="outline">Share</Button>
+        <div className=" flex justify-center ">
+          <Button
+            className=" border-2 border-red-400 rounded-none bg-transparent text-white hover:bg-red-400 hover:text-white"
+            // onClick={() => {
+            //   buyNft(item);
+            // }}
+          >
+            Buy Your NFT
+          </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md border-2 border-red-400 bg-transparent rounded-none text-red-400">
         <DialogHeader></DialogHeader>
