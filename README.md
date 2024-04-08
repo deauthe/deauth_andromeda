@@ -3,7 +3,9 @@
 
 ## Project Description
 
-The DEAUTH platform addresses the struggles faced by new aspiring illustrators by providing a solution that enables them to showcase their art, monetize their creations, and offer unique value-based NFTs. The platform compensates artists for sales of their diverse design products and allows for shared ownership of design NFTs. Artists can create NFTs of their art and utilize them to produce a variety of products such as shirts, hoodies, and mugs. Additionally, they can monetize their designs further by dividing the ownership of NFTs between multiple owners, with sales benefits distributed according to the proportion of ownership.
+The DEAUTH platform addresses the struggles faced by new aspiring illustrators by providing a solution that enables them to showcase their art, monetize their creations, and offer unique value-based NFTs. The platform compensates artists for sales of their diverse design products and allows for shared ownership of design NFTs. 
+
+Artists can create NFTs of their art and utilize them to produce a variety of products such as shirts, hoodies, and mugs. Additionally, they can monetize their designs further by dividing the ownership of NFTs between multiple owners, with sales benefits distributed according to the proportion of ownership.
 
 ## Table of Contents
 
@@ -68,11 +70,11 @@ To address the cw721 limitation, we propose introducing a new NFT type: a refere
 ---
 <p>&nbsp;</p>
 <p align="center">
-<img src="./assets/idea2.png" width=1000>
+<img src="./assets/idea-v3.1.png" width=1000>
 </p>
 <p>&nbsp;</p>
 <p align="center">
-<img src="./assets/idea1.png" width=1000>
+<img src="./assets/idea-v3.2.png" width=1000>
 </p>
 
 ---
