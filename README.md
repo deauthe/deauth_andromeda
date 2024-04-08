@@ -39,7 +39,8 @@ To get started with the development server, follow these steps:
 
 
 ## Project Idea
-### Challenges with cw721 for Child NFTs
+
+### ✅ Challenges with cw721 for Child NFTs
 
 The cw721 standard, commonly used for creating NFTs on the Cosmos blockchain, presents a challenge for our specific use case. If we were to mint child NFTs directly using cw721 and link them to parent NFTs by referencing the parent's address, anyone could potentially mint a child NFT by simply including the parent's address in their transaction. This would compromise the integrity of the parent-child relationship and potentially lead to unwanted or unauthorized child NFTs.
 
@@ -67,6 +68,18 @@ To address the cw721 limitation, we propose introducing a new NFT type: a refere
 - Flexibility: Allows for future additions of child NFTs as long as they can be linked to a valid reference NFT.
     
 - Transparency: The reference NFT provides a clear record of the parent-child relationships on the blockchain.
+
+### ✅ Additional Feature: Multiple Design Submission and NFT Creation
+
+### Challenge:
+In implementing the feature allowing designers to submit multiple designs for NFT creation, we encountered a challenge ensuring the availability and authenticity of the NFTs for sale.
+
+### Solution:
+To address this challenge, we implemented a verification process during NFT purchases. We validate both the owner's ID and the associated child ID to confirm the NFT's availability for sale. This verification step adds an extra layer of security and ensures that only legitimate NFTs are available for purchase.
+
+### Security Measures:
+The data associated with this verification process is securely stored in our backend system. We retain only public addresses, ensuring the confidentiality of sensitive information while maintaining robust security measures. This approach safeguards user data and enhances the overall integrity of the platform.
+
 ---
 <p>&nbsp;</p>
 <p align="center">
@@ -76,7 +89,6 @@ To address the cw721 limitation, we propose introducing a new NFT type: a refere
 <p align="center">
 <img src="./assets/idea-v3.2.png" width=1000>
 </p>
-
 ---
 
 
@@ -87,6 +99,7 @@ To address the cw721 limitation, we propose introducing a new NFT type: a refere
    - They will need to provide necessary details such as title, description, and upload the design file.
 
 2. **Creating NFTs:**
+   - A user can make differnet designs and submit it to us.
    - Once a design is submitted, the platform automatically creates an NFT associated with the design.
    - The NFT represents ownership and authenticity of the artwork.
 
@@ -115,12 +128,12 @@ By following these steps, artists can showcase their art, users can support thei
 
 ## Credits
 
-This project utilizes the following libraries and protocols:
-- Timelock
-- Splitter
-- CW721
-- Marketplace
-- CW20
+This project utilizes the following ADOs from AndromedaOs:
+- [Timelock](https://docs.andromedaprotocol.io/andromeda/andromeda-digital-objects/timelock)
+- [Splitter](https://docs.andromedaprotocol.io/andromeda/andromeda-digital-objects/splitter)
+- [CW721](https://docs.andromedaprotocol.io/andromeda/andromeda-digital-objects/cw721)
+- [Marketplace](https://docs.andromedaprotocol.io/andromeda/andromeda-digital-objects/marketplace)
+- [CW20](https://docs.andromedaprotocol.io/andromeda/andromeda-digital-objects/cw20)
 
 
 ## How to Contribute to the Project
