@@ -39,14 +39,25 @@ const HeroBanner = () => {
         className="z-10 absolute left-0 right-0 top-[15em] mx-auto w-1/2  font-header text-white"
       />
 
-      <button
-        className="button absolute z-10 left-1/2 transform -translate-x-1/2 top-[36em] p-9 mx-auto  font-extrabold "
-        onClick={() => {
-          router.push("/Create");
-        }}
-      >
-        Sell Your ART
-      </button>
+      <div className="absolute z-10 left-1/2 transform -translate-x-1/2 top-[36em] p-9 mx-auto flex gap-9">
+        <button
+          className="button  font-extrabold "
+          onClick={() => {
+            router.push("/Create");
+          }}
+        >
+          Sell Your ART
+        </button>
+
+        <button
+          className="button1   font-extrabold "
+          onClick={() => {
+            router.push("/Create");
+          }}
+        >
+          Go to Marketplace
+        </button>
+      </div>
 
       <div className="w-5 h-5">
         <Image

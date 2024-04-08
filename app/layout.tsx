@@ -7,10 +7,10 @@ import "@/styles/globals.css";
 import Navbar from "@/components/NavBar/Navbar";
 import Image from "next/image";
 export const metadata: Metadata = {
-	title: {
-		default: "Andromeda Nextjs Starter",
-		template: "%s | App Name",
-	},
+  title: {
+    default: "Deauth",
+    template: "%s | App Name",
+  },
 };
 
 interface Props {
