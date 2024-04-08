@@ -59,7 +59,17 @@ const CreateNftButton = ({
 		}
 	};
 	const createNFT = async () => {
-		if (!image || !price || !name || !description) return;
+		if (!image || !name || !description) {
+			console.log(
+				"please fill fields:",
+				image,
+				"name:",
+				name,
+				"description:",
+				description
+			);
+			return;
+		}
 		try {
 			const token_id = uuidv4();
 			const owner_of_minted_nft: string =
@@ -103,7 +113,6 @@ const CreateNftButton = ({
 					name="file"
 					onChange={uploadToIPFS}
 					className=" border-red-400 border-2 bg-transparent text p-2  outline-none"
-
 				/>
 				<Form.Control
 					onChange={(e) => setName(e.target.value)}
@@ -120,9 +129,8 @@ const CreateNftButton = ({
 					as="textarea"
 					placeholder="Description"
 					className=" border-red-400 border-2 bg-transparent p-2  outline-none text-red-400"
-
 				/>
-			
+
 				<div className="d-grid px-0 m-auto bg-red-400">
 					<Button onClick={createNFT} size="lg" className="bg-red-400">
 						Create & List NFT!

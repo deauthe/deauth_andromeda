@@ -3,6 +3,12 @@ import { Button } from "@/components/ui/button";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import useGetCodeId from "@/lib/andrjs/hooks/useGetCodeId";
 import { AndrAddress, query } from "@andromedaprotocol/andromeda.js";
+import { ChainClient } from "@andromedaprotocol/andromeda.js/dist/clients";
+import {
+	Coin,
+	EncodeObject,
+	isTxBodyEncodeObject,
+} from "@cosmjs/proto-signing";
 import { all } from "axios";
 import { log } from "console";
 import Image from "next/image";
@@ -23,6 +29,7 @@ const DistributeNfts = (props: Props) => {
 		useState<string>("");
 	const [transactionWaiting, setTransactionWaiting] = useState(false);
 	const client = useAndromedaClient();
+
 	const mainNftTokenId = localStorage.getItem("mainNftTokenId ");
 
 	useEffect(() => {
@@ -115,7 +122,7 @@ const DistributeNfts = (props: Props) => {
 		}
 
 		try {
-			if (!contract_address || !query || !client) {
+			if (!contract_address || !client) {
 				console.log("something missing c:", contract_address, " q:", query);
 				return;
 			}
@@ -150,7 +157,70 @@ const DistributeNfts = (props: Props) => {
 				},
 			});
 
+			const nft5 = await client?.signAndBroadcast(
+				[
+					{
+						typeUrl: "",
+						value: {
+							send_nft: {
+								contract: marketPlaceAddress,
+								token_id: all_nft_token_ids[3],
+								msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
+							},
+						},
+					},
+				],
+				0
+			);
+
 			console.log("nft sent: ", nft1, nft2, nft3, nft4);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const batchSendNft = async (all_nft_token_ids: string[]) => {
+		if (!allNfts || allNfts.length === 0) {
+			console.log("nfts missing");
+			return;
+		}
+		const marketPlaceAddress: AndrAddress = marketPlaceContractAddress;
+		if (marketPlaceAddress.length === 0) {
+			console.log("no marketplace address");
+			return;
+		}
+
+		const funds: Coin[] = [];
+		const endcoded_messages = all_nft_token_ids.map((item, index) => {
+			return client?.chainClient?.encodeExecuteMsg(
+				contract_address as string,
+				{
+					send_nft: {
+						contract: marketPlaceAddress,
+						token_id: item,
+						msg: "eyJzdGFydF9zYWxlIjp7ImNvaW5fZGVub20iOiJ1YW5kciIsInN0YXJ0X3RpbWUiOm51bGwsImR1cmF0aW9uIjpudWxsLCJwcmljZSI6IjEwMDAifX0=",
+					},
+				},
+				funds
+			);
+		});
+
+		console.log("message", endcoded_messages);
+
+		try {
+			if (!contract_address || !client) {
+				console.log("something missing c:", contract_address, " q:", query);
+				return;
+			}
+
+			console.log(marketPlaceAddress);
+
+			const sentNft = await client?.signAndBroadcast(
+				endcoded_messages as EncodeObject[],
+				0
+			);
+
+			console.log("nft sent: ", sentNft);
 		} catch (error) {
 			console.error(error);
 		}
@@ -289,6 +359,14 @@ const DistributeNfts = (props: Props) => {
 					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white  mt-8"
 				>
 					Query MarketPlace
+				</Button>
+				<Button
+					onClick={() => {
+						batchSendNft(allNfts);
+					}}
+					className="border-2 border-red-400 bg-red-300 p-5 text-black rounded-none hover:text-white  mt-8"
+				>
+					batchSend
 				</Button>
 			</div>
 		</div>

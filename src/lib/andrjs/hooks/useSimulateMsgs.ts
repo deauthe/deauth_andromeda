@@ -7,14 +7,14 @@ import useAndromedaClient from "./useAndromedaClient";
  * @returns
  */
 export default function useSimulateExecute() {
-  const client = useAndromedaClient();
+	const client = useAndromedaClient();
 
-  const simulate = useCallback(
-    async (msgs: readonly EncodeObject[], memo?: string) => {
-      return client!.estimateFee(msgs, undefined, memo);
-    },
-    [client],
-  );
+	const simulate = useCallback(
+		async (msgs: readonly EncodeObject[], memo?: string) => {
+			return client!.estimateFee(msgs, undefined, memo);
+		},
+		[client]
+	);
 
-  return simulate;
+	return simulate;
 }
