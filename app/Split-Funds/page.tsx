@@ -75,8 +75,7 @@ const CreateSplitterPage = (props: Props) => {
 					percent: "0.15",
 				},
 			],
-			kernel_address:
-				process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
+			kernel_address: process.env.NEXT_PUBLIC_KERNEL_ADDRESS,
 			owner: process.env.NEXT_PUBLIC_WALLET_ADDRESS,
 		};
 
